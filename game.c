@@ -21,9 +21,13 @@ int main (void)
     tinygl_draw_message("Hello", point, 1);
 
 
+
     pacer_init (PACER_RATE);
     while(1)
     {
+        if (true) {
+            
+        }
         pacer_wait();
         tinygl_update();
     }
