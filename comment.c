@@ -23,7 +23,7 @@ void intro_com(void) {
 void score(char score1, char score2) 
 {
     tinygl_point_t point = {0, 0};
-    tinygl_draw_message(("%c:%c", score1, score2) point, 1);
+    tinygl_draw_message(("%c:%c" score1 score2) point, 1);
 }
 
 void end_com(void) 
