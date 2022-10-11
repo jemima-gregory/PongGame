@@ -5,19 +5,11 @@
 
 #include "stage.h"
 #include "comment.h"
+#include "bat.h"
+#include "ball.h"
 
 static int comment_count = 0;
 
-/*Define the game stages*/
-typedef enum
-{
-    /*The start stage of the game*/
-    START,
-    /*The game playing stage of the game*/
-    PLAYING,
-    /*The end of the game*/
-    END
-} game_stage_t;
 
 
 game_stage_t start_stage(void)
@@ -41,8 +33,26 @@ game_stage_t playing_stage(void)
 {
     /* if this is the first time the function is being called */
     if (comment_count == 1) {
-
+        //initiating the ball and the bat
+        ball = ball_init();
+        bat = init_bat();
     }
+
+    //checking the nav switch for actions performed
+    check_navswitch();
+    //checking if the ball has 'hit' anything
+    update_ball_direction(ball);
+
+
+    //displaying the bat, in it's current position, on the led matrix
+    display_bat(bat);
+    //displaying the ball, in it's current position, on the led matrix
+    display_ball(ball);
+
+
+    //moving the ball's position on the led matrix by one
+    update_ball_position(ball);
+
 
     return PLAYING;
 }

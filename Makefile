@@ -52,6 +52,9 @@ ball.o: ball.c ball.h
 comment.o: comment.c comment.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+stage.o: stage.c stage.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # Link: create ELF output file from object files.
 game.out: game.o system.o pio.o timer.o display.o ledmat.o font.o pacer.o tinygl.o comment.o bat.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm

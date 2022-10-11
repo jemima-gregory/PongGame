@@ -10,7 +10,7 @@ Ball ball_init(void)
     ball new_ball;
     new_ball.row = 4;
     new_ball.col = 3;
-    new_ball.dir = NORTH;
+    new_ball.dir = SOUTH; // ------------HAVE SET THIS TO SOUTH FOR ****TESTING**** , ONCE THE GAME USES IR, CHANGE IT TO 'NORTH' -------------------------------------------------
 
     return new_ball;
 }
