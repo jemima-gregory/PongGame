@@ -43,11 +43,15 @@ pacer.o: ../../utils/pacer.c ../../drivers/avr/system.h ../../drivers/avr/timer.
 tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/font.h ../../utils/tinygl.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+bat.o: bat.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+
 comment.o: comment.c comment.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o pio.o timer.o display.o ledmat.o font.o pacer.o tinygl.o comment.o
+game.out: game.o system.o pio.o timer.o display.o ledmat.o font.o pacer.o tinygl.o comment.o bat.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
