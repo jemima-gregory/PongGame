@@ -23,7 +23,7 @@ game_stage_t start_stage(void)
     /* if the nav switch is pushed change to the playing stage*/
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
         return PLAYING;
-    }
+    }s
 
     tinygl_update();
     return START;
