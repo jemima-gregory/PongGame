@@ -1,12 +1,17 @@
 #ifndef BAT_H
 #define BAT_H
 
-#include "stdint.h"
+#include <stdint.h>
 
-int8_t init_bat(void);
+typedef struct
+{
+    int8_t position;
+} Bat_t;
 
-void display_bat(int8_t bat);
+Bat_t init_bat(void);
 
-void check_navswitch(void);
+void display_bat(Bat_t bat);
+
+Bat_t check_navswitch(Bat_t bat);
 
 #endif

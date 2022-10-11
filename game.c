@@ -8,7 +8,7 @@
 
 int main (void)
 {
-    game_stage_t stage = gamestart();
+    game_stage_t stage = start_stage();
     system_init();
     pacer_init(PACER_RATE);
     comment_init();

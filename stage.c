@@ -23,7 +23,7 @@ game_stage_t start_stage(void)
     /* if the nav switch is pushed change to the playing stage*/
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
         return PLAYING;
-    }s
+    }
 
     tinygl_update();
     return START;
@@ -32,6 +32,8 @@ game_stage_t start_stage(void)
 game_stage_t playing_stage(void)
 {
     /* if this is the first time the function is being called */
+    Ball_t ball;
+    Bat_t bat;
     if (comment_count == 1) {
         //initiating the ball and the bat
         ball = ball_init();
@@ -39,9 +41,9 @@ game_stage_t playing_stage(void)
     }
 
     //checking the nav switch for actions performed
-    check_navswitch();
+    bat = check_navswitch(bat);
     //checking if the ball has 'hit' anything
-    update_ball_direction(ball);
+    ball = update_ball_direction(ball, bat);
 
 
     //displaying the bat, in it's current position, on the led matrix
@@ -51,7 +53,7 @@ game_stage_t playing_stage(void)
 
 
     //moving the ball's position on the led matrix by one
-    update_ball_position(ball);
+    ball = update_ball_position(ball);
 
 
     return PLAYING;
@@ -68,5 +70,5 @@ game_stage_t end_stage(void)
         comment_count = 0;
         return START;
     }
-    return END
+    return END;
 }

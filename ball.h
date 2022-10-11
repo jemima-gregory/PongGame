@@ -2,6 +2,7 @@
 #define BALL_H
 
 #include <stdint.h>
+#include "bat.h"
 
 
 // Direction of the ball
@@ -21,14 +22,14 @@ typedef struct {
     int8_t row; 
     int8_t col;
     Direction dir;
-} Ball;
+} Ball_t;
 
-Ball ball_init(void);
+Ball_t ball_init(void);
 
-Ball update_ball_direction(Ball the_ball);
+Ball_t update_ball_direction(Ball_t ball, Bat_t bat);
 
-Ball update_ball_position (Ball the_ball);
+Ball_t update_ball_position (Ball_t the_ball);
 
-void display_ball(Ball the_ball);
+void display_ball(Ball_t the_ball);
 
 #endif
