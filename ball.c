@@ -1,7 +1,7 @@
 #include "system.h"
 #include "display.h"
 #include "pacer.h"
-
+#include "ball.h"
 
 
 //Initiates the ball object - called when the game begins, thus the ball is initiated with the same start position and direction each time.
