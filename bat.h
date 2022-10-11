@@ -1,8 +1,9 @@
 #ifndef BAT_H
 #define BAT_H
 
-void comment_init (void);
+void display_bat_position(void);
 
-void intro_com (void);
+void check_navswitch(void);
+
 
 #endif
