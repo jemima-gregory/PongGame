@@ -49,5 +49,14 @@ game_stage_t playing_stage(void)
 
 game_stage_t end_stage(void)
 {
+    if (comment_count == 4) {
+        end_com();
+        comment_count++;
+    }
+
+    if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+        comment_count = 0;
+        return START;
+    }
     return END
 }
