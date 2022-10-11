@@ -46,6 +46,8 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 bat.o: bat.c bat.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+ball.o: ball.c ball.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
 comment.o: comment.c comment.h
 	$(CC) -c $(CFLAGS) $< -o $@
