@@ -2,27 +2,21 @@
 #include "display.h"
 #include "pacer.h"
 
-// Direction of the ball
-typedef enum {
-    NORTH, 
-    SOUTH,
-    EAST,
-    WEST,
-    NORTH_EAST,  
-    SOUTH_EAST,  
-    NORTH_WEST,
-    SOUTH_WEST
-} direction;
-
-// Defining the ball object, the position and direction
-typedef struct {
-    int8_t row; 
-    int8_t col;
-    direction dir;
-} ball;
 
 
-void check_ball_position(ball ball_object)
+//Initiates the ball object - called when the game begins, thus the ball is initiated with the same start position and direction each time.
+Ball ball_init(void)
+{
+    ball new_ball;
+    new_ball.row = 4;
+    new_ball.col = 3;
+    new_ball.dir = NORTH;
+
+    return new_ball;
+}
+
+
+Ball update_ball_direction(Ball the_ball)
 {
 
     //Dealing with potential changes of direction first:
@@ -75,55 +69,42 @@ void check_ball_position(ball ball_object)
         //add win to score or return miss
     }
 
+    return the_ball;
 }
 
 
+//Updates the balls coordinates by one, depending on it's current direction.
+Ball update_ball_position (Ball the_ball)
+{
+    if (dir == NORTH) {
+        col --;
+    } else if (dir == SOUTH) {
+        col ++;
+    } else if (dir == NORTH_EAST) {
+        col --;
+        row --;
+    } else if (dir == NORTH_WEST) {
+        col --;
+        row ++;       
+    } else if (dir == SOUTH_EAST) {
+        col ++;
+        row --;
+    } else {
+        //direction is SOUTHWEST
+        col ++;
+        row ++;
+    }
 
-
-
-
-
-
+    return the_ball;
+}
 
 
 //Display the position of the ball
-void display_ball_position(ball ball_object)
+void display_ball(Ball the_ball)
 {
     //set all pixels to off, before setting the next position of the ball
     display_clear();
 
     //set the pixel on at the 
-    display_pixel_set(ball_object.col, ball_object.row, 1)
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-int main (void)
-{
-
-    system_init ();
-    pacer_init (PACER_RATE);
-
-    while(1)
-    {
-        pacer_wait ();
-        
-        //Call the function to check the current position fo the ball.
-        check_ball_position();
-
-        //Call the function to display the bat in it's position.
-        display_ball_position(ball_1);
-
-    }
-    return 0;
+    display_pixel_set(col, row, 1);
 }

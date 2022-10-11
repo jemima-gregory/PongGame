@@ -6,26 +6,29 @@
 
 // Direction of the ball
 typedef enum {
-    DIR_N, 
-    DIR_S,
-    DIR_E,
-    DIR_W,
-    DIR_NE,  
-    DIR_SE,  
-    DIR_NW,
-    DIR_SW
-} direction;
+    NORTH, 
+    SOUTH,
+    EAST,
+    WEST,
+    NORTH_EAST,  
+    SOUTH_EAST,  
+    NORTH_WEST,
+    SOUTH_WEST
+} Direction;
 
 // Defining the ball object, the position and direction
 typedef struct {
     int8_t row; 
     int8_t col;
-    direction dir;
-} ball;
+    Direction dir;
+} Ball;
 
+Ball ball_init(void);
 
-void display_ball_position(int8_t row, int8_t col);
+Ball update_ball_direction(Ball the_ball);
 
-void check_ball_position(void);
+Ball update_ball_position (Ball the_ball);
+
+void display_ball(Ball the_ball);
 
 #endif
