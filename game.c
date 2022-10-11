@@ -25,9 +25,14 @@ int main (void)
 
     while(1)
     {
-        if 
         pacer_wait();
-        tinygl_update();
+        if (stage == START) {
+            tinygl_update();
+        } else if (stage == PLAYING) {
+
+        } else {
+
+        }
     }
     return 0;
 }
