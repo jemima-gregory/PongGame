@@ -2,16 +2,22 @@
 #include "pacer.h"
 #include "comment.h"
 #include "stage.h"
+#include "led.h"
+#include "navswitch.h"
 
 #define PACER_RATE 500
 
 
 int main (void)
 {
-    game_stage_t stage = start_stage();
     system_init();
     pacer_init(PACER_RATE);
     comment_init();
+    navswitch_init();
+    led_init();
+    led_set(LED1, 0);
+
+    game_stage_t stage = start_stage();
 
     while(1)
     {

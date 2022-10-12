@@ -7,6 +7,7 @@
 #include "comment.h"
 #include "bat.h"
 #include "ball.h"
+#include "led.h"
 
 static int comment_count = 0;
 
@@ -19,12 +20,12 @@ game_stage_t start_stage(void)
         intro_com();
         comment_count++;
     }
-
     /* if the nav switch is pushed change to the playing stage*/
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+        led_set(LED1, 1);
         return PLAYING;
     }
-
+    navswitch_update();
     tinygl_update();
     return START;
 }
@@ -70,5 +71,6 @@ game_stage_t end_stage(void)
         comment_count = 0;
         return START;
     }
+    navswitch_update();
     return END;
 }

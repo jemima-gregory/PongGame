@@ -66,6 +66,6 @@ Bat_t check_navswitch(Bat_t bat)
             bat.position --;
         }        
     }
-
+    navswitch_update();
     return bat;
 }

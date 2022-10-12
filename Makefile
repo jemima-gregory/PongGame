@@ -46,6 +46,9 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 navswitch.o: ../../drivers/navswitch.c ../../drivers/avr/delay.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+led.o: ../../drivers/led.c ../../drivers/avr/system.h ../../drivers/avr/pio.h ../../drivers/led.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 bat.o: bat.c bat.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
@@ -59,7 +62,7 @@ stage.o: stage.c stage.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o pio.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o comment.o bat.o ball.o comment.o stage.o
+game.out: game.o system.o pio.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o led.o comment.o bat.o ball.o comment.o stage.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
