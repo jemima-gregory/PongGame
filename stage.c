@@ -9,8 +9,9 @@
 #include "ball.h"
 #include "led.h"
 
+
 static int comment_count = 0;
-bool ball_display = true;
+bool bat_display = true;
 Bat_t bat;
 Ball_t ball;
 
@@ -38,21 +39,23 @@ game_stage_t start_stage(void)
 game_stage_t playing_stage(void)
 {
 
-    if (ball_display == true) {
+    if (bat_display == true) {
+        //Bat Display
         //displaying the bat, in it's current position, on the led matrix
         display_bat(bat);
         //checking the nav switch for actions performed
         bat = check_navswitch(bat);
-        ball_display = false;
+        bat_display = false;
     } else {
+        //Ball Display
         led_set(LED1, 1);
         //displaying the ball, in it's current position, on the led matrix
         display_ball(ball);
         //moving the ball's position on the led matrix by one
         ball = update_ball_position(ball);
         //checking if the ball has 'hit' anything
-        ball = update_ball_direction(ball, bat);
-        ball_display = true;
+        //ball = update_ball_direction(ball, bat);
+        bat_display = true;
     }
 
     tinygl_update();

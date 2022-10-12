@@ -19,8 +19,8 @@
 Ball_t ball_init(void)
 {
     Ball_t new_ball;
-    new_ball.x = 0;
-    new_ball.y = 3;
+    new_ball.x = 1;
+    new_ball.y = 4;
     new_ball.dir = SOUTH; 
     return new_ball;
 }
@@ -49,6 +49,10 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
         }
     }
 
+    // -----------------TESTING--------------
+    if (ball.x == 0) {
+        ball.dir = SOUTH;
+    }
 
     //The ball reached the bottom of the board. (from the player's pov)
     if (ball.x == 4) {
@@ -113,5 +117,6 @@ void display_ball(Ball_t ball)
 {
     tinygl_clear();
     tinygl_pixel_value_t led_on = 1;
-    tinygl_draw_point(tinygl_point(ball.x, ball.y), led_on);
+    tinygl_point_t ball_pos = tinygl_point(ball.x, ball.y);
+    tinygl_draw_point(ball_pos, led_on);
 }
