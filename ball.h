@@ -19,8 +19,8 @@ typedef enum {
 
 // Defining the ball object, the position and direction
 typedef struct {
-    int8_t row; 
-    int8_t col;
+    int8_t x; 
+    int8_t y;
     Direction dir;
 } Ball_t;
 
