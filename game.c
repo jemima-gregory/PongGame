@@ -4,7 +4,8 @@
 #include "stage.h"
 #include "led.h"
 #include "navswitch.h"
-
+#include "display.h"
+#include "ledmat.h"
 #define PACER_RATE 500
 
 
@@ -15,6 +16,10 @@ int main (void)
     comment_init();
     navswitch_init();
     led_init();
+    //display_init();
+    //ledmat_init();
+
+
     led_set(LED1, 0);
 
     game_stage_t stage = start_stage();

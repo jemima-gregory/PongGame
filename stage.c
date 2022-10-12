@@ -22,7 +22,7 @@ game_stage_t start_stage(void)
     }
     /* if the nav switch is pushed change to the playing stage*/
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-        led_set(LED1, 1);
+        //led_set(LED1, 1);
         return PLAYING;
     }
     navswitch_update();
@@ -33,28 +33,28 @@ game_stage_t start_stage(void)
 game_stage_t playing_stage(void)
 {
     /* if this is the first time the function is being called */
-    Ball_t ball;
+    //Ball_t ball;
     Bat_t bat;
     if (comment_count == 1) {
         //initiating the ball and the bat
-        ball = ball_init();
+        //ball = ball_init();
         bat = init_bat();
     }
 
     //checking the nav switch for actions performed
     bat = check_navswitch(bat);
     //checking if the ball has 'hit' anything
-    ball = update_ball_direction(ball, bat);
+    //ball = update_ball_direction(ball, bat);
 
 
     //displaying the bat, in it's current position, on the led matrix
     display_bat(bat);
     //displaying the ball, in it's current position, on the led matrix
-    display_ball(ball);
+    //display_ball(ball);
 
 
     //moving the ball's position on the led matrix by one
-    ball = update_ball_position(ball);
+    //ball = update_ball_position(ball);
 
 
     return PLAYING;

@@ -17,8 +17,16 @@ Bat_t init_bat(void)
 void display_bat(Bat_t bat)
 {
     //set all pixels to off, before setting the next position
-    display_clear();
+    //display_clear();
+    //led_set(LED1, 1);
 
+    //ledmat_display_column(10000000,1);
+
+    display_pixel_set(1,1,1);
+    //display_pixel_get(1,1);
+
+    display_update();
+    /*
     switch(bat.position)
     {
         case 1:
@@ -32,9 +40,10 @@ void display_bat(Bat_t bat)
             display_pixel_set(5,4,1);
             break;
         case 3:
-            display_pixel_set(5,5,1);
-            display_pixel_set(5,4,1);
-            display_pixel_set(5,3,1);
+            //display_pixel_set(5,5,1);
+            //display_pixel_set(5,4,1);
+            //display_pixel_set(5,3,1);
+            display_pixel_set(1,1,1);
             break;    
         case 4:
             display_pixel_set(5,4,1);
@@ -47,6 +56,7 @@ void display_bat(Bat_t bat)
             display_pixel_set(5,1,1);
             break;
     }
+    */
 }
 
 
