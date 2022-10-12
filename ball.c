@@ -111,7 +111,6 @@ Ball_t update_ball_position (Ball_t the_ball)
 //Display the position of the ball
 void display_ball(Ball_t ball)
 {
-    tinygl_clear();
     tinygl_pixel_value_t led_on = 1;
     tinygl_draw_point(tinygl_point(ball.x, ball.y), led_on);
 }

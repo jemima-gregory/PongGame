@@ -27,8 +27,6 @@ Bat_t bat_init(void)
 //Display the bat on the led matrix
 void display_bat(Bat_t bat)
 {
-    tinygl_clear();
-
     tinygl_point_t start_of_bat;
     tinygl_point_t end_of_bat;
 

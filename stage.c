@@ -39,13 +39,14 @@ game_stage_t playing_stage(void)
 {
 
     if (ball_display == true) {
+        tinygl_clear();
         //displaying the bat, in it's current position, on the led matrix
         display_bat(bat);
         //checking the nav switch for actions performed
         bat = check_navswitch(bat);
         ball_display = false;
     } else {
-        led_set(LED1, 1);
+        tinygl_clear();
         //displaying the ball, in it's current position, on the led matrix
         display_ball(ball);
         //moving the ball's position on the led matrix by one
