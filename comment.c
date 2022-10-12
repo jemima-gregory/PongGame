@@ -5,7 +5,7 @@
 #include "comment.h"
 
 #define PACER_RATE 500
-#define MESSAGE_RATE 30
+#define MESSAGE_RATE 50
 
 void comment_init (void)
 {

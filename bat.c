@@ -2,10 +2,21 @@
 #include "display.h"
 #include "navswitch.h"
 #include "bat.h"
+#include "ledmat.h"
+#include "tinygl.h"
 
+
+// the map the for led matrix (use to calculate coord for tinygl)
+// ------y------
+// 6 5 4 3 2 1 0
+// o o o o o o o 0  |
+// o o o o o o o 1  |
+// o o o o o o o 2  x
+// o o o o o o o 3  |
+// o o o o o o o 4  |
 
 //Initiates the bat object - is called when the game begins, so the bat is initiated with the same start position each time, 3, "the middle".
-Bat_t init_bat(void) 
+Bat_t bat_init(void) 
 {
     Bat_t new_bat;
     new_bat.position = 3;
@@ -16,51 +27,33 @@ Bat_t init_bat(void)
 //Display the bat on the led matrix
 void display_bat(Bat_t bat)
 {
-    //set all pixels to off, before setting the next position
-    display_clear();
+    tinygl_clear();
 
-    switch(bat.position)
-    {
-        case 1:
-            display_pixel_set(5,7,1);
-            display_pixel_set(5,6,1);
-            display_pixel_set(5,5,1);
-            break;
-        case 2:
-            display_pixel_set(5,6,1);
-            display_pixel_set(5,5,1);
-            display_pixel_set(5,4,1);
-            break;
-        case 3:
-            display_pixel_set(5,5,1);
-            display_pixel_set(5,4,1);
-            display_pixel_set(5,3,1);
-            break;    
-        case 4:
-            display_pixel_set(5,4,1);
-            display_pixel_set(5,3,1);
-            display_pixel_set(5,2,1);
-            break;
-        case 5:
-            display_pixel_set(5,3,1);
-            display_pixel_set(5,2,1);
-            display_pixel_set(5,1,1);
-            break;
-    }
+    tinygl_point_t start_of_bat;
+    tinygl_point_t end_of_bat;
+
+    // calculating the coord for the start and end of the bat
+    start_of_bat = tinygl_point (4, bat.position-1);
+    end_of_bat = tinygl_point (4, bat.position + 1);
+    
+    
+    tinygl_pixel_value_t led_on = 1;
+    // using tingygl to display the bat
+    tinygl_draw_line(start_of_bat, end_of_bat, led_on);
 }
 
 
 Bat_t check_navswitch(Bat_t bat)
 {
-    // Increment the position if NORTH is pressed. (representing the bat moving RIGHT)
-    if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
+    // Increment the position if SOUTH is pressed. (representing the bat moving RIGHT)
+    if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
         //check if the new position will be in the bounds of the screen.
         if (bat.position < 5) {
             bat.position ++;
         }
     }
-    // Decrement position if SOUTH is pressed. (representing the bat moving LEFT)
-    if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
+    // Decrement position if NORTH is pressed. (representing the bat moving LEFT)
+    if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
         //check if the new position will be in the bounds of the screen.
         if (bat.position > 1) {
             bat.position --;

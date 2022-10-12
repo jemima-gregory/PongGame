@@ -8,7 +8,7 @@ typedef struct
     int8_t position;
 } Bat_t;
 
-Bat_t init_bat(void);
+Bat_t bat_init (void);
 
 void display_bat(Bat_t bat);
 
