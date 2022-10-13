@@ -5,7 +5,7 @@
 #include "led.h"
 #include "navswitch.h"
 #include "display.h"
-
+#include "tinygl.h"
 
 #define PACER_RATE 500
 
@@ -26,18 +26,24 @@ int main (void)
 
     game_stage_t stage = start_stage();
 
+    uint8_t count = 0;
+
     while(1)
     {
         pacer_wait();
-
+        count++;
+        if (count > 50) {
+            count = 0;
+        }
         if (stage == START) {
             stage = start_stage();
         } else if (stage == PLAYING) {
-            stage = playing_stage();
+            tinygl_clear();
+            stage = playing_stage(count);
         } else {
             stage = end_stage();
         }
-
+        tinygl_update();
     }
     return 0;
 }
