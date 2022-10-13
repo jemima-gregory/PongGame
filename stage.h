@@ -15,7 +15,7 @@ typedef enum
 
 game_stage_t start_stage(void);
 
-game_stage_t playing_stage(void);
+game_stage_t playing_stage(int8_t call_ball);
 
 game_stage_t end_stage(void);
 

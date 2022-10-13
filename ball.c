@@ -18,11 +18,11 @@
 //Initiates the ball object - called when the game begins, thus the ball is initiated with the same start position and direction each time.
 Ball_t ball_init(void)
 {
-    Ball_t new_ball;
-    new_ball.x = 0;
-    new_ball.y = 3;
-    new_ball.dir = SOUTH; 
-    return new_ball;
+    Ball_t ball;
+    ball.x = 0;
+    ball.y = 3;
+    ball.dir = SOUTH; 
+    return ball;
 }
 
 
@@ -78,6 +78,10 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
         //add win to score or return miss
     }
 
+    if (ball.x == 0) {
+        ball.dir = SOUTH;
+    } 
+
     return ball;
 }
 
@@ -98,7 +102,7 @@ Ball_t update_ball_position (Ball_t the_ball)
     } else if (the_ball.dir == SOUTH_EAST) {
         the_ball.x ++;
         the_ball.y --;
-    } else {
+    } else if (the_ball.dir == SOUTH_WEST) {
         //direction is SOUTHWEST
         the_ball.x ++;
         the_ball.y ++;
@@ -111,6 +115,18 @@ Ball_t update_ball_position (Ball_t the_ball)
 //Display the position of the ball
 void display_ball(Ball_t ball)
 {
+    // tinygl_pixel_value_t led_on = 1;
+    // tinygl_pixel_set(tinygl_point(ball.x, ball.y), led_on);
+
+    tinygl_point_t start_of_ball;
+    tinygl_point_t end_of_ball;
+
+    // calculating the coord for the start and end of the bat
+    start_of_ball = tinygl_point(ball.x, ball.y);
+    end_of_ball = tinygl_point(ball.x, ball.y);
+    
+    
     tinygl_pixel_value_t led_on = 1;
-    tinygl_draw_point(tinygl_point(ball.x, ball.y), led_on);
+    // using tingygl to display the bat
+    tinygl_draw_line(start_of_ball, end_of_ball, led_on);
 }

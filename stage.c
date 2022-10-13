@@ -11,8 +11,8 @@
 
 static int comment_count = 0;
 bool ball_display = true;
-Bat_t bat;
-Ball_t ball;
+static Bat_t bat;
+static Ball_t ball;
 
 
 game_stage_t start_stage(void)
@@ -24,39 +24,36 @@ game_stage_t start_stage(void)
     }
     /* if the nav switch is pushed change to the playing stage*/
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-        led_set(LED1, 1);
+        //led_set(LED1, 1);
         bat = bat_init();
         ball = ball_init();
         tinygl_clear();
         return PLAYING;
     }
     navswitch_update();
-    tinygl_update();
     return START;
 }
 
-game_stage_t playing_stage(void)
+game_stage_t playing_stage(int8_t call_ball)
 {
 
     if (ball_display == true) {
-        tinygl_clear();
         //displaying the bat, in it's current position, on the led matrix
         display_bat(bat);
         //checking the nav switch for actions performed
         bat = check_navswitch(bat);
         ball_display = false;
     } else {
-        tinygl_clear();
         //displaying the ball, in it's current position, on the led matrix
+        if (call_ball > 49) {
+            ball = update_ball_position(ball);
+            ball = update_ball_direction(ball, bat);
+        }
         display_ball(ball);
-        //moving the ball's position on the led matrix by one
-        ball = update_ball_position(ball);
-        //checking if the ball has 'hit' anything
-        ball = update_ball_direction(ball, bat);
         ball_display = true;
     }
 
-    tinygl_update();
+    
     return PLAYING;
 }
 
