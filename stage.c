@@ -38,13 +38,13 @@ game_stage_t start_stage(void)
 game_stage_t playing_stage(int8_t call_ball)
 {
 
-    if (bat_display == true) {
+    if (ball_display == true) {
         //Bat Display
         //displaying the bat, in it's current position, on the led matrix
         display_bat(bat);
         //checking the nav switch for actions performed
         bat = check_navswitch(bat);
-        bat_display = false;
+        ball_display = false;
     } else {
         //displaying the ball, in it's current position, on the led matrix
         if (call_ball > 49) {
