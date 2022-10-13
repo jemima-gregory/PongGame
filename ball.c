@@ -20,7 +20,7 @@ Ball_t ball_init(void)
 {
     Ball_t ball;
     ball.x = 0;
-    ball.y = 3;
+    ball.y = 2;
     ball.dir = SOUTH; 
     return ball;
 }
@@ -29,6 +29,11 @@ Ball_t ball_init(void)
 Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
 {
     int8_t bat_pos = bat.position;
+
+    if (bat_pos == 4) {
+        led_set(LED1, 1);
+    }
+
     //Dealing with potential changes of direction first:
 
     // If the ball 'hits' either wall - y equal to 0 or 6 (right and left to us), then adjust it's direction accordingly
@@ -51,32 +56,32 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
 
     //The ball reached the bottom of the board. (from the player's pov)
     if (ball.x == 4) {
-        //The ball hits the centre of the bat
-        if (((ball.y == 5) && bat_pos == 1) || ((ball.y == 4 ) && bat_pos == 2) || ((ball.y == 3) && bat_pos == 3) || ((ball.y == 2) && bat_pos == 4) || ((ball.y == 1) && bat_pos == 5)) {
+        //The ball hits the centre of the bat -the bat position# corresponds to the middle led its on.
+        if (ball.y == bat_pos) {
             ball.dir = NORTH;
 
-        //The ball hits the left side of the bat
+        //The ball hits the LEFT side of the bat
         //if the ball hits the edge of the bat, but it's also against the edge - go the opposite way to the wall, diagonally.
-        } else if ((ball.y == 6) && (bat_pos == 1)) {
-            ball.dir = NORTH_EAST;
+        } else if ((ball.y == 6) && (bat_pos == 5)) {
+            ball.dir = NORTH_EAST; 
         
         //left edge
-        } else if (((ball.y == 5) && (bat_pos == 2)) || ((ball.y == 4) && (bat_pos == 3)) || ((ball.y == 3) && (bat_pos== 4)) || ((ball.y == 2) && (bat_pos == 5))) {
+        } else if (ball.y == bat_pos + 1) {
             ball.dir = NORTH_WEST;
 
+        //The ball hits the RIGHT side of the bat
         //if the ball hits the edge of the bat, but it's also against the edge - go the opposite way to the wall, diagonally.
-        } else if ((ball.y == 0) && (bat_pos == 5)) {
+        } else if ((ball.y == 0) && (bat_pos == 1)) {
             ball.dir = NORTH_WEST;
         
         //right edge
-        } else if (((ball.y == 4) && (bat_pos == 1)) || ((ball.y == 3) && (bat_pos == 2)) || ((ball.y == 2) && (bat_pos== 3)) || ((ball.y == 1) && (bat_pos == 4))) {
+        } else if (ball.y == bat_pos - 1) {
             ball.dir = NORTH_EAST;
         }
 
         //if the ball doesn't hit the bat
         //add win to score or return miss
     }
-    
     // -----------------TESTING--------------
     if (ball.x == 0) {
         ball.dir = SOUTH;
