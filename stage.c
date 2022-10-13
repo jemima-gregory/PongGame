@@ -11,7 +11,7 @@
 
 
 static int comment_count = 0;
-bool ball_display = true;
+bool bat_display = true;
 static Bat_t bat;
 static Ball_t ball;
 
@@ -52,7 +52,7 @@ game_stage_t playing_stage(int8_t call_ball)
             ball = update_ball_direction(ball, bat);
         }
         display_ball(ball);
-        ball_display = true;
+        bat_display = true;
     }
 
     
