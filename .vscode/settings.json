@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "bat.h": "c",
+        "ball.h": "c"
+    }
+}

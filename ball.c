@@ -49,11 +49,6 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
         }
     }
 
-    // -----------------TESTING--------------
-    if (ball.x == 0) {
-        ball.dir = SOUTH;
-    }
-
     //The ball reached the bottom of the board. (from the player's pov)
     if (ball.x == 4) {
         //The ball hits the centre of the bat
@@ -81,7 +76,8 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
         //if the ball doesn't hit the bat
         //add win to score or return miss
     }
-
+    
+    // -----------------TESTING--------------
     if (ball.x == 0) {
         ball.dir = SOUTH;
     } 
