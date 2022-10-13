@@ -17,12 +17,9 @@ int main (void)
     comment_init();
     navswitch_init();
     led_init();
-    //display_init();
-    //ledmat_init();
-
-
     led_set(LED1, 0);
     display_init();
+
 
     game_stage_t stage = start_stage();
 
