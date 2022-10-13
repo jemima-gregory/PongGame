@@ -30,10 +30,6 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
 {
     int8_t bat_pos = bat.position;
 
-    if (bat_pos == 4) {
-        led_set(LED1, 1);
-    }
-
     //Dealing with potential changes of direction first:
 
     // If the ball 'hits' either wall - y equal to 0 or 6 (right and left to us), then adjust it's direction accordingly
@@ -82,10 +78,11 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
         //if the ball doesn't hit the bat
         //add win to score or return miss
     }
-    // -----------------TESTING--------------
+    // --------------TESTING-----------------
     if (ball.x == 0) {
         ball.dir = SOUTH;
     } 
+    // --------------------------------------
 
     return ball;
 }
