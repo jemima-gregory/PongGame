@@ -22,14 +22,19 @@ typedef struct {
     int8_t x; 
     int8_t y;
     Direction dir;
+    bool missed;
 } Ball_t;
 
+// initialize the ball
 Ball_t ball_init(void);
 
-Ball_t update_ball_direction(Ball_t ball, Bat_t bat);
+// Update the ball direction
+Ball_t ball_update_direction(Ball_t ball, Bat_t bat);
 
-Ball_t update_ball_position (Ball_t the_ball);
+// Update the ball position
+Ball_t ball_update_position (Ball_t the_ball);
 
-void display_ball(Ball_t the_ball);
+// Display the ball on the matrix
+void ball_display(Ball_t the_ball);
 
 #endif

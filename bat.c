@@ -25,7 +25,7 @@ Bat_t bat_init(void)
 
 
 //Display the bat on the led matrix
-void display_bat(Bat_t bat)
+void bat_display(Bat_t bat)
 {
     tinygl_point_t start_of_bat;
     tinygl_point_t end_of_bat;
@@ -41,7 +41,8 @@ void display_bat(Bat_t bat)
 }
 
 
-Bat_t check_navswitch(Bat_t bat)
+// Checks if the nav switch has been pressed and moves the bat position accordingly
+Bat_t bat_update_position(Bat_t bat)
 {
     // Increment the position if SOUTH is pressed. (representing the bat moving RIGHT)
     if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {

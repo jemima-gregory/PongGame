@@ -5,8 +5,9 @@
 #include "comment.h"
 
 #define PACER_RATE 500
-#define MESSAGE_RATE 50
+#define MESSAGE_RATE 30
 
+// Initialize comment
 void comment_init (void)
 {
     tinygl_init(PACER_RATE);
@@ -16,20 +17,23 @@ void comment_init (void)
     tinygl_text_dir_set(TINYGL_TEXT_DIR_ROTATE);
 }
 
-void intro_com(void) {
+// Set the display to the intro text
+void comment_intro(void) {
     tinygl_text("  Push to start");
 }
 
-void score(char score1, char score2) 
+// Set the display to the score text
+void comment_score(char score1, char score2) 
 {
-    tinygl_point_t point = {0, 0};
-    char score_com[] = " : ";
-    score_com[0] = score1;
-    score_com[2] = score2;
+    tinygl_point_t point = {0, 6};
+    char score_com[] = " s : s ";
+    score_com[1] = score1;
+    score_com[5] = score2;
     tinygl_draw_message(score_com, point, 1);
 }
 
-void end_com(void) 
+// Set the display to the end text
+void comment_end(void) 
 {
     tinygl_text("Thank you for playing");
 }

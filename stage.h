@@ -13,10 +13,13 @@ typedef enum
     END
 } game_stage_t;
 
-game_stage_t start_stage(void);
+// The start stage of the game, displays the intro on the LED matrix
+game_stage_t stage_start (void);
 
-game_stage_t playing_stage(int8_t call_ball);
+// Displays the game on the matrix and also manages the game play
+game_stage_t stage_playing (int8_t call_ball);
 
-game_stage_t end_stage(void);
+// Displayes the end screen
+game_stage_t stage_end (void);
 
 #endif

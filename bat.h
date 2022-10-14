@@ -8,10 +8,13 @@ typedef struct
     int8_t position;
 } Bat_t;
 
+// Initialize bat
 Bat_t bat_init (void);
 
-void display_bat(Bat_t bat);
+//Display the bat on the led matrix
+void bat_display (Bat_t bat);
 
-Bat_t check_navswitch(Bat_t bat);
+// Checks if the nav switch has been pressed and moves the bat position accordingly
+Bat_t bat_update_position (Bat_t bat);
 
 #endif

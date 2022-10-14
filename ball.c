@@ -20,33 +20,34 @@ Ball_t ball_init(void)
 {
     Ball_t ball;
     ball.x = 0;
-    ball.y = 2;
-    ball.dir = SOUTH; 
+    ball.y = 3;
+    ball.dir = SOUTH;
+    ball.missed = false;
     return ball;
 }
 
-
-Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
+// Update the direction of the ball
+Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
 {
     int8_t bat_pos = bat.position;
 
-    //Dealing with potential changes of direction first:
-
     // If the ball 'hits' either wall - y equal to 0 or 6 (right and left to us), then adjust it's direction accordingly
-    //(right-hand wall)
-    if (ball.y == 0) {
-        if (ball.dir == NORTH_EAST) {
-            ball.dir = NORTH_WEST;
-        } else {
-            ball.dir = SOUTH_WEST;
-        }
+    if (ball.dir != SOUTH && ball.dir != NORTH) {
+        // The ball hits the right wall
+        if (ball.y == 0) {
+            if (ball.dir == NORTH_EAST) {
+                ball.dir = NORTH_WEST;
+            } else {
+                ball.dir = SOUTH_WEST;
+            }
 
-    //(left-hand wall)
-    } else if (ball.y == 6) {
-        if (ball.dir == NORTH_WEST) {
-            ball.dir = NORTH_EAST;
-        } else {
-            ball.dir = SOUTH_EAST;
+        // The ball htis the left wall
+        } else if (ball.y == 6) {
+            if (ball.dir == NORTH_WEST) {
+                ball.dir = NORTH_EAST;
+            } else {
+                ball.dir = SOUTH_EAST;
+            }
         }
     }
 
@@ -75,8 +76,11 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
             ball.dir = NORTH_EAST;
         }
 
-        //if the ball doesn't hit the bat
-        //add win to score or return miss
+        // If the ball doesn't hit the bat
+        // then the ball is missed
+        else {
+            ball.missed = true;
+        }
     }
     // --------------TESTING-----------------
     if (ball.x == 0) {
@@ -89,7 +93,7 @@ Ball_t update_ball_direction(Ball_t ball, Bat_t bat)
 
 
 //Updates the balls coordinates by one, depending on it's current direction.
-Ball_t update_ball_position (Ball_t the_ball)
+Ball_t ball_update_position (Ball_t the_ball)
 {
     if (the_ball.dir == NORTH) {
         the_ball.x --;
@@ -115,20 +119,9 @@ Ball_t update_ball_position (Ball_t the_ball)
 
 
 //Display the position of the ball
-void display_ball(Ball_t ball)
+void ball_display(Ball_t ball)
 {
-    // tinygl_pixel_value_t led_on = 1;
-    // tinygl_pixel_set(tinygl_point(ball.x, ball.y), led_on);
-
-    tinygl_point_t start_of_ball;
-    tinygl_point_t end_of_ball;
-
-    // calculating the coord for the start and end of the bat
-    start_of_ball = tinygl_point(ball.x, ball.y);
-    end_of_ball = tinygl_point(ball.x, ball.y);
-    
-    
     tinygl_pixel_value_t led_on = 1;
-    // using tingygl to display the bat
-    tinygl_draw_line(start_of_ball, end_of_ball, led_on);
+    // using tingygl to display the ball
+    tinygl_draw_point(tinygl_point(ball.x, ball.y), led_on);
 }
