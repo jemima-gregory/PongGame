@@ -1,3 +1,10 @@
+/*
+    File:    comment.c
+    Authors: Jee Park, Jemima Gregory
+    Date:    10 October 2022
+    Descr:   Contains functions to display all the comments that are displayed throughout the game
+*/
+
 #include "system.h"
 #include "pacer.h"
 #include "tinygl.h"
@@ -7,7 +14,7 @@
 #define PACER_RATE 500
 #define MESSAGE_RATE 30
 
-// Initialize comment
+//Initialize comment
 void comment_init (void)
 {
     tinygl_init(PACER_RATE);
@@ -17,12 +24,12 @@ void comment_init (void)
     tinygl_text_dir_set(TINYGL_TEXT_DIR_ROTATE);
 }
 
-// Set the display to the intro text
+//Set the display to the intro text
 void comment_intro(void) {
     tinygl_text("  Push to start");
 }
 
-// Set the display to the score text
+//Set the display to the score text
 void comment_score(char score1, char score2) 
 {
     tinygl_point_t point = {0, 6};
@@ -32,7 +39,7 @@ void comment_score(char score1, char score2)
     tinygl_draw_message(score_com, point, 1);
 }
 
-// Set the display to the end text
+//Set the display to the end text
 void comment_end(void) 
 {
     tinygl_text("Thank you for playing");

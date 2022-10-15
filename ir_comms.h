@@ -1,3 +1,10 @@
+/*
+    File:    ir_comms.c
+    Authors: Jemima Gregory, Jee Park
+    Date:    13 October 2022
+    Descr:   Contains the functionality for the ir communication between the two players
+*/
+
 #ifndef IR_COMMS_H
 #define IRS_COMMS_H
 

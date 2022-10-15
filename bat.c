@@ -1,3 +1,10 @@
+/*
+    File:    bat.c
+    Authors: Jemima Gregory, Jee Park
+    Date:    11 October 2022
+    Descr:   Functionality of the bat object, its movement, control via the navswitch, and its display
+*/
+
 #include "system.h"
 #include "display.h"
 #include "navswitch.h"
@@ -6,7 +13,7 @@
 #include "tinygl.h"
 
 
-// the map the for led matrix (use to calculate coord for tinygl)
+//The map the for led matrix (use to calculate coord for tinygl)
 // ------y------
 // 6 5 4 3 2 1 0
 // o o o o o o o 0  |
@@ -29,19 +36,16 @@ void bat_display(Bat_t bat)
 {
     tinygl_point_t start_of_bat;
     tinygl_point_t end_of_bat;
-
-    // calculating the coord for the start and end of the bat
+    //Calculating the coord for the start and end of the bat
     start_of_bat = tinygl_point (4, bat.position-1);
     end_of_bat = tinygl_point (4, bat.position + 1);
-    
-    
     tinygl_pixel_value_t led_on = 1;
-    // using tingygl to display the bat
+    //Using tingygl to display the bat
     tinygl_draw_line(start_of_bat, end_of_bat, led_on);
 }
 
 
-// Checks if the nav switch has been pressed and moves the bat position accordingly
+//Checks if the nav switch has been pressed and moves the bat position accordingly
 Bat_t bat_update_position(Bat_t bat)
 {
     // Increment the position if SOUTH is pressed. (representing the bat moving RIGHT)
@@ -51,9 +55,9 @@ Bat_t bat_update_position(Bat_t bat)
             bat.position ++;
         }
     }
-    // Decrement position if NORTH is pressed. (representing the bat moving LEFT)
+    //Decrement position if NORTH is pressed. (representing the bat moving LEFT)
     if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
-        //check if the new position will be in the bounds of the screen.
+        //Check if the new position will be in the bounds of the screen.
         if (bat.position > 1) {
             bat.position --;
         }        

@@ -1,3 +1,10 @@
+/*
+    File:    ball.c
+    Authors: Jemima Gregory, Jee Park
+    Date:    11 October 2022
+    Descr:   Functionality of the ball object, its movement and its display
+*/
+
 #include "system.h"
 #include "tinygl.h"
 #include "pacer.h"
@@ -6,7 +13,7 @@
 #include "led.h"
 
 
-// the map the for led matrix (use to calculate coord for tinygl)
+//The map the for led matrix (use to calculate coord for tinygl)
 // ------y------
 // 6 5 4 3 2 1 0
 // o o o o o o o 0  |
@@ -26,12 +33,12 @@ Ball_t ball_init(void)
     return ball;
 }
 
-// Update the direction of the ball
+//Update the direction of the ball
 Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
 {
     int8_t bat_pos = bat.position;
 
-    // If the ball 'hits' either wall - y equal to 0 or 6 (right and left to us), then adjust it's direction accordingly
+    //If the ball 'hits' either wall - y equal to 0 or 6 (right and left to us), then adjust it's direction accordingly
     if (ball.dir != SOUTH && ball.dir != NORTH) {
         // The ball hits the right wall
         if (ball.y == 0) {
@@ -41,7 +48,7 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
                 ball.dir = SOUTH_WEST;
             }
 
-        // The ball htis the left wall
+        //The ball htis the left wall
         } else if (ball.y == 6) {
             if (ball.dir == NORTH_WEST) {
                 ball.dir = NORTH_EAST;
@@ -62,7 +69,7 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
         } else if ((ball.y == 6) && (bat_pos == 5)) {
             ball.dir = NORTH_EAST; 
         
-        //left edge
+        //Left edge
         } else if (ball.y == bat_pos + 1) {
             ball.dir = NORTH_WEST;
 
@@ -71,22 +78,21 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
         } else if ((ball.y == 0) && (bat_pos == 1)) {
             ball.dir = NORTH_WEST;
         
-        //right edge
+        //Right edge
         } else if (ball.y == bat_pos - 1) {
             ball.dir = NORTH_EAST;
-        }
-
-        // If the ball doesn't hit the bat
-        // then the ball is missed
-        else {
+    
+        //If the ball doesn't hit the bat
+        //Then the ball is missed
+        } else {
             ball.missed = true;
         }
     }
-    // --------------TESTING-----------------
+    // --------------TESTING-----------------------------------------------------------------
     if (ball.x == 0) {
         ball.dir = SOUTH;
     } 
-    // --------------------------------------
+    // --------------------------------------------------------------------------------------
 
     return ball;
 }
@@ -97,11 +103,6 @@ Ball_t ball_update_position (Ball_t the_ball)
 {
     if (the_ball.dir == NORTH) {
         the_ball.x --;
-    } else if (the_ball.dir == SOUTH) {
-        the_ball.x ++;
-    } else if (the_ball.dir == NORTH_EAST) {
-        the_ball.x --;
-        the_ball.y --;
     } else if (the_ball.dir == NORTH_WEST) {
         the_ball.x --;
         the_ball.y ++;       
@@ -109,7 +110,7 @@ Ball_t ball_update_position (Ball_t the_ball)
         the_ball.x ++;
         the_ball.y --;
     } else if (the_ball.dir == SOUTH_WEST) {
-        //direction is SOUTHWEST
+        //Direction is SOUTHWEST
         the_ball.x ++;
         the_ball.y ++;
     }
@@ -122,6 +123,6 @@ Ball_t ball_update_position (Ball_t the_ball)
 void ball_display(Ball_t ball)
 {
     tinygl_pixel_value_t led_on = 1;
-    // using tingygl to display the ball
+    //Using tingygl to display the ball
     tinygl_draw_point(tinygl_point(ball.x, ball.y), led_on);
 }

@@ -1,10 +1,17 @@
+/*
+    File:    ball.h
+    Authors: Jemima Gregory, Jee Park
+    Date:    11 October 2022
+    Descr:   Functionality of the ball object, its movement and its display
+*/
+
 #ifndef BALL_H
 #define BALL_H
 
 #include "bat.h"
 
 
-// Direction of the ball
+//Direction of the ball
 typedef enum {
     NORTH, 
     SOUTH,
@@ -16,7 +23,7 @@ typedef enum {
     SOUTH_WEST
 } Direction;
 
-// Defining the ball object, the position and direction
+//Defining the ball object, the position and direction
 typedef struct {
     int8_t x; 
     int8_t y;
@@ -24,16 +31,16 @@ typedef struct {
     bool missed;
 } Ball_t;
 
-// initialize the ball
+//Initialize the ball
 Ball_t ball_init(void);
 
-// Update the ball direction
+//Update the ball direction
 Ball_t ball_update_direction(Ball_t ball, Bat_t bat);
 
-// Update the ball position
+//Update the ball position
 Ball_t ball_update_position (Ball_t the_ball);
 
-// Display the ball on the matrix
+//Display the ball on the matrix
 void ball_display(Ball_t the_ball);
 
 #endif
