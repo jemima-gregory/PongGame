@@ -31,7 +31,7 @@ typedef struct {
     bool missed;
 } Ball_t;
 
-//Initialize the ball
+//Initialise the ball
 Ball_t ball_init(void);
 
 //Update the ball direction
@@ -40,7 +40,7 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat);
 //Update the ball position
 Ball_t ball_update_position (Ball_t the_ball);
 
-//Display the ball on the matrix
+//Display the ball on the led matrix
 void ball_display(Ball_t the_ball);
 
 #endif

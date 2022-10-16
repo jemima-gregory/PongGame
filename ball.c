@@ -60,34 +60,35 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
 
     //The ball reached the bottom of the board. (from the player's pov)
     if (ball.x == 4) {
-        //The ball hits the centre of the bat -the bat position# corresponds to the middle led its on.
+        //Ball hits the centre of the bat
         if (ball.y == bat_pos) {
             ball.dir = NORTH;
 
-        //The ball hits the LEFT side of the bat
-        //if the ball hits the edge of the bat, but it's also against the edge - go the opposite way to the wall, diagonally.
+        //Ball hits the left edge of the bat, but the bat is also against the edge of the board
         } else if ((ball.y == 6) && (bat_pos == 5)) {
             ball.dir = NORTH_EAST; 
         
-        //Left edge
+        //Ball hits the left edge of the bat
         } else if (ball.y == bat_pos + 1) {
             ball.dir = NORTH_WEST;
 
-        //The ball hits the RIGHT side of the bat
-        //if the ball hits the edge of the bat, but it's also against the edge - go the opposite way to the wall, diagonally.
+        //Ball hits the right edge of the bat, but the bat is also against the edge of the board
         } else if ((ball.y == 0) && (bat_pos == 1)) {
             ball.dir = NORTH_WEST;
         
-        //Right edge
+        //Ball hits the right edge of the bat
         } else if (ball.y == bat_pos - 1) {
             ball.dir = NORTH_EAST;
     
-        //If the ball doesn't hit the bat
-        //Then the ball is missed
+        //Ball doesn't hit the bat
         } else {
             ball.missed = true;
         }
     }
+
+
+
+
     // --------------TESTING-----------------------------------------------------------------
     if (ball.x == 0) {
         ball.dir = SOUTH;
@@ -98,11 +99,16 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
 }
 
 
-//Updates the balls coordinates by one, depending on it's current direction.
+//Updates the ball coordinates by one, depending on it's current direction.
 Ball_t ball_update_position (Ball_t the_ball)
 {
     if (the_ball.dir == NORTH) {
         the_ball.x --;
+    } else if (the_ball.dir == SOUTH) {
+        the_ball.x ++;
+    } else if (the_ball.dir == NORTH_EAST) {
+        the_ball.x --;
+        the_ball.y --;
     } else if (the_ball.dir == NORTH_WEST) {
         the_ball.x --;
         the_ball.y ++;       
@@ -110,7 +116,6 @@ Ball_t ball_update_position (Ball_t the_ball)
         the_ball.x ++;
         the_ball.y --;
     } else if (the_ball.dir == SOUTH_WEST) {
-        //Direction is SOUTHWEST
         the_ball.x ++;
         the_ball.y ++;
     }
