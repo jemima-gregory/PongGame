@@ -84,6 +84,12 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
         } else {
             ball.missed = true;
         }
+
+    //The ball has reached the top of the board. (from the player's pov)
+    } else if (x == 0) {
+        ir_comms_outgoing_ball(ball);
+        //Ball stops displaying as it 'leaves' the player's board ---------------------------------------------------------- NEEDS TO BE IMPLEMENTED ---------------
+
     }
 
 

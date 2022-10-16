@@ -34,9 +34,11 @@ int main (void)
     {
         pacer_wait();
         update_ball++;
+
         if (update_ball > 50) {
             update_ball = 0;
         }
+
         if (stage == START) {
             stage = stage_start();
         } else if (stage == PLAYING) {

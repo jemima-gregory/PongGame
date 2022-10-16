@@ -85,6 +85,15 @@ game_stage_t stage_playing(int8_t update_ball)
         }
 
     } else {
+        
+        //Checking if there is incoming ir to be read, and updating the position of the ball if this is the case
+        if (ir_ur_read_ready_p()) {
+            ball = ir_comms_incomming_ball(ball);
+            //Ball starts displaying as it 'enters' the player's board ---------------------------------------------------------- NEEDS TO BE IMPLEMENTED ---------------
+
+        }
+
+
         tinygl_clear();
         //Display bat
         if (display_state == true) {
