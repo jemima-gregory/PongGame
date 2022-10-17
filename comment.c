@@ -30,13 +30,10 @@ void comment_intro(void) {
 }
 
 //Set the display to the score text
-void comment_score(char score1, char score2) 
+void comment_score(char score) 
 {
     tinygl_point_t point = {0, 6};
-    char score_com[] = " s : s ";
-    score_com[1] = score1;
-    score_com[5] = score2;
-    tinygl_draw_message(score_com, point, 1);
+    tinygl_draw_message(score, point, 1);
 }
 
 //Set the display to the end text

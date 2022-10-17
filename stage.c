@@ -16,10 +16,14 @@
 #include "ball.h"
 #include "led.h"
 
-//A count that counts the the number of comments displayed. There is always 4 comments displayed each game.
-static int comment_count = 0;
+#define SCORE_0 48
+
+// To check if its the first time entering the start stage.
+static bool first_start_stage = true;
+// To check if its the first time entering the end stage.
+static bool first_end_stage = true;
 //A counter to count how long the score is to be displayed
-static int16_t comment_score_count = 1;
+static int16_t comment_score_count = 0;
 //This is to control whether the ball or bat is to be displayed 
 bool display_state = true;
 //Creating a ball object
@@ -27,22 +31,21 @@ static Bat_t bat;
 //Creating a ball object
 static Ball_t ball;
 //Score1 is this players score and is set to 0
-static char score1 = 48;
-//Score 2 is the opponents score and is set to 0
-static char score2 = 48;
+static char score = SCORE_0;
 
 //The start stage of the game
-game_stage_t stage_start(void)
+game_stage_t stage_start(uint64_t start_counter)
 {
     //If this is the first time the function is being called, display the intro comment
-    if (comment_count == 0) {
+    if (first_start_stage) {
         tinygl_clear();
         comment_intro();
-        comment_count++;
+        first_start_stage = false;
     }
 
     //If the nav switch is pushed, change to the playing stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+        first_start_stage = true;
         bat = bat_init();
         ball = ball_init();
         tinygl_clear();
@@ -58,26 +61,24 @@ game_stage_t stage_playing(int8_t update_ball)
 {
     //If the ball is missed then the opponents score goes up 1 and the score is displayed
     if (ball.missed) {
-        if (comment_count == comment_score_count) {
+        if (comment_score_counter = 0) {
             tinygl_clear();
-            score2 ++;
             //Display the score
-            comment_score(score1, score2);
-            comment_count++;
+            comment_score(score);
             //Increment the score counter
-            comment_score_count++;
+            comment_score_counter++;
         }
         //Increment the score counter
-        comment_score_count++;
+        comment_score_counter++;
         /* If the score counter reaches 1300 that means the score has finished being
         displayed. The ball and bat is set back to initial settings and the game
         is played again */
-        if (comment_score_count > 1300) {
-            if (score1 == 51 || score2 == 51) {
+        if (comment_score_counter > 1300) {
+            if (score == 51) {
                 return END;
             }
             ball.missed = false;
-            comment_score_count = comment_count;
+            comment_score_counter = 0;
             ball.x = 0;
             ball.y = 3;
             ball.dir = SOUTH;
@@ -120,17 +121,15 @@ game_stage_t stage_playing(int8_t update_ball)
 game_stage_t stage_end(void)
 {
     //If this is the first time the function is being called, display the end comment
-    if (comment_count == 4) {
+    if (first_end_stage) {
         comment_end();
-        comment_count++;
+        first_end_stage = false;
     }
 
     //If the nav switch is pushed, change to the start stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-        comment_count = 0;
-        comment_score_count = 1;
-        score1 = 48;
-        score2 = 48;
+        first_end_stage = true;
+        score = SCORE_0;
         navswitch_update();
         return START;
     }
