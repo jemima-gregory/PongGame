@@ -72,7 +72,7 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
         //Ball hits the left edge of the bat
         } else if (ball.y == bat_pos + 1) {
             ball.dir = NORTH_WEST;
-ball_init
+
         //Ball hits the right edge of the bat, but the bat is also against the edge of the board
         } else if ((ball.y == 0) && (bat_pos == 1)) {
             ball.dir = NORTH_WEST;
@@ -86,21 +86,7 @@ ball_init
             ball.missed = true;
         }
 
-    //The ball has reached the top of the board. (from the player's pov)
-    } else if (x == 0) {
-        ir_comms_outgoing_ball(ball);
-        //Ball stops displaying as it 'leaves' the player's board ---------------------------------------------------------- NEEDS TO BE IMPLEMENTED ---------------
-
     }
-
-
-
-
-    // --------------TESTING-----------------------------------------------------------------
-    if (ball.x == 0) {
-        ball.dir = SOUTH;
-    } 
-    // --------------------------------------------------------------------------------------
 
     return ball;
 }

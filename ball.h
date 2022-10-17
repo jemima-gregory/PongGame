@@ -14,13 +14,13 @@
 //Direction of the ball
 typedef enum {
     NORTH, 
-    SOUTH,
+    NORTH_EAST,
     EAST,
+    SOUTH_EAST,
+    SOUTH,
+    SOUTH_WEST,
     WEST,
-    NORTH_EAST,  
-    SOUTH_EAST,  
-    NORTH_WEST,
-    SOUTH_WEST
+    NORTH_WEST
 } Direction;
 
 //Defining the ball object, the position and direction

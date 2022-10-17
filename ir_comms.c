@@ -24,20 +24,21 @@ void ir_comms_start_game (void)
 void ir_comms_outgoing_ball (Ball_t ball) 
 {
     //Encoded_val is a char value which encodes the x coord (multiplied by the offset so each combination of x and dir are distinct) and direction.
-    char encoded_val = ball.x * XCOORD_OFFSET + ball.dir;
+    char encoded_val = (ball.dir * 10) + ball.y;
 
     ir_uart_putc(encoded_val);
 }
 
-ll.x * XCOORD_OFFSET + ball.dir;
+
 //Decodes the info recieved by the ir, returns the ball's value
 Ball_t ir_comms_incomming_ball (Ball_t ball) 
 {
     char value = ir_uart_getc();
 
     //Value is decoded from a char value to get the direction
-    ball.dir = value % XCOORD_OFFSET;
+    ball.y = 6 - (value % 10);
 
     //Value is decoded from a char value to get the x-coord
-    ball.x = (value - ball.dir) / XCOORD_OFFSET;
+    ball.dir = (((value - y_cord) / 10) + 4) % 8;
+
 }
