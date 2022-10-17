@@ -11,12 +11,13 @@
 //Offset is 8 as there are 8 values for direction
 #define XCOORD_OFFSET 8
 
+//Start val is the value which conveys that the game should start
+#define START_VAL s
 
-//Working from the lab3.3 file
-
-void ir_comms (void) 
+//Sends the start signal to the other player
+void ir_comms_start_game (void) 
 {
-
+    ir_uart_putc(START_VAL);
 }
 
 //Encodes the ball's values (x,y,direction) in a 
@@ -28,7 +29,7 @@ void ir_comms_outgoing_ball (Ball_t ball)
     ir_uart_putc(encoded_val);
 }
 
-
+ll.x * XCOORD_OFFSET + ball.dir;
 //Decodes the info recieved by the ir, returns the ball's value
 Ball_t ir_comms_incomming_ball (Ball_t ball) 
 {

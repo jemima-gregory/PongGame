@@ -43,11 +43,23 @@ game_stage_t stage_start(void)
 
     //If the nav switch is pushed, change to the playing stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+
+        //Send the start signal to the other player
+        ir_comms_start_game();
+        //Seting the ball to display on this players board
+        ball.display = true;
+    
         bat = bat_init();
         ball = ball_init();
         tinygl_clear();
         return PLAYING;
     }
+
+    //Checking to see if start signal has been sent by other player
+    if (ir_ur_read_ready_p()) {
+        
+    }
+    
 
     navswitch_update();
     return START;
@@ -56,6 +68,7 @@ game_stage_t stage_start(void)
 //The playing stage is where the actual game is displayed and managed
 game_stage_t stage_playing(int8_t update_ball)
 {
+
     //If the ball is missed then the opponents score goes up 1 and the score is displayed
     if (ball.missed) {
         if (comment_count == comment_score_count) {

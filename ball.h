@@ -29,6 +29,7 @@ typedef struct {
     int8_t y;
     Direction dir;
     bool missed;
+    bool display;
 } Ball_t;
 
 //Initialise the ball

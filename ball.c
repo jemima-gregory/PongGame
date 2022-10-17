@@ -30,6 +30,7 @@ Ball_t ball_init(void)
     ball.y = 3;
     ball.dir = SOUTH;
     ball.missed = false;
+    ball.display = true
     return ball;
 }
 
@@ -71,7 +72,7 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
         //Ball hits the left edge of the bat
         } else if (ball.y == bat_pos + 1) {
             ball.dir = NORTH_WEST;
-
+ball_init
         //Ball hits the right edge of the bat, but the bat is also against the edge of the board
         } else if ((ball.y == 0) && (bat_pos == 1)) {
             ball.dir = NORTH_WEST;
