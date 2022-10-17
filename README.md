@@ -1,3 +1,7 @@
+Authors: Jemima Gregory, Jee Park
+Date:    10 October 2022
+
+
 How To Play:
 
 Press down on the nav-switch to begin.

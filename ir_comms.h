@@ -19,4 +19,8 @@ void ir_comms_outgoing_ball (Ball_t ball);
 
 Ball_t ir_comms_incomming_ball (Ball_t ball);
 
+void ir_comms_send_score (char their_score);
+
+char ir_comms_get_score (char my_score);
+
 #endif

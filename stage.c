@@ -20,9 +20,9 @@
 #define SCORE_0 48
 #define SCORE_3 51
 
-// To check if its the first time entering the start stage.
+// To check if its the first time entering the start stage
 static bool first_start_stage = true;
-// To check if its the first time entering the end stage.
+// To check if its the first time entering the end stage
 static bool first_end_stage = true;
 //A counter to count how long the score is to be displayed
 static int16_t comment_score_counter = 0;
@@ -33,7 +33,9 @@ static Bat_t bat;
 //Creating a ball object
 static Ball_t ball;
 //Score1 is this players score and is set to 0
-static char score = SCORE_0;
+static char score1 = SCORE_0;
+//Score2 is this opponents score and is set to 0
+static char score2 = SCORE_0;
 
 //The start stage of the game
 game_stage_t stage_start(void)
@@ -79,12 +81,26 @@ game_stage_t stage_start(void)
 game_stage_t stage_playing(int8_t update_ball)
 {
 
-    //If the ball is missed then the opponents score goes up 1 and the score is displayed
-    if (ball.missed) {
+    //If the player missed the ball, or if the opponent missed
+    //then the opponents score goes up 1 and the score is displayed
+    if (ball.missed || ir_uart_read_ready_p()) {
+        
+
         if (comment_score_counter == 0) {
+            
+            if (ball.missed) {
+                //Increment the opponents score
+                score2 ++;
+                //Send the score to the opponent
+                ir_comms_send_score(score2);
+
+            } else if (ir_uart_read_ready_p()) {
+                score1 = ir_comms_get_score(score1);
+            }
+
             tinygl_clear();
-            //Display the score
-            comment_score(score);
+            //Display the players score
+            comment_score(score1);
             //Increment the score counter
             comment_score_counter++;
         }
@@ -101,7 +117,7 @@ game_stage_t stage_playing(int8_t update_ball)
             ball.dir = SOUTH;
             bat.position = 3;
 
-            if (score == SCORE_3) {
+            if ((score1 == SCORE_3) || (score2 == SCORE_3)) {
                 return END;
             }
         }
@@ -158,7 +174,8 @@ game_stage_t stage_end(void)
     //If the nav switch is pushed, change to the start stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
         first_end_stage = true;
-        score = SCORE_0;
+        score1 = SCORE_0;
+        score2 = SCORE_0;
         navswitch_update();
         return START;
     }

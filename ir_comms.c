@@ -56,3 +56,14 @@ Ball_t ir_comms_incomming_ball (Ball_t ball)
 
     return ball;
 }
+
+//
+void ir_comms_send_score (char their_score) {
+    ir_uart_putc(their_score);
+}
+
+//
+char ir_comms_get_score (char my_score) {
+    my_score = ir_uart_getc();
+    return my_score;
+}
