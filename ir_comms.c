@@ -7,17 +7,17 @@
 
 #include "system.h"
 #include "ir_uart.h"
-
+#include "ir_comms.h"
 //Offset is 8 as there are 8 values for direction
 #define XCOORD_OFFSET 8
 
 //Start val is the value which conveys that the game should start
-#define START_VAL s
+//#define START_VAL 
 
 //Sends the start signal to the other player
 void ir_comms_start_game (void) 
 {
-    ir_uart_putc(START_VAL);
+    ir_uart_putc('s');
 }
 
 //Encodes the ball's values (x,y,direction) in a 
@@ -36,9 +36,11 @@ Ball_t ir_comms_incomming_ball (Ball_t ball)
     char value = ir_uart_getc();
 
     //Value is decoded from a char value to get the direction
-    ball.y = 6 - (value % 10);
+    int8_t y_cord = value % 10;
+    ball.y = 6 - y_cord;
 
     //Value is decoded from a char value to get the x-coord
     ball.dir = (((value - y_cord) / 10) + 4) % 8;
 
+    return ball;
 }

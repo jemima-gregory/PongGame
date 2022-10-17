@@ -9,6 +9,7 @@
 #include "navswitch.h"
 #include "ir_uart.h"
 #include "tinygl.h"
+#include "ir_comms.h"
 
 #include "stage.h"
 #include "comment.h"
@@ -23,7 +24,7 @@ static bool first_start_stage = true;
 // To check if its the first time entering the end stage.
 static bool first_end_stage = true;
 //A counter to count how long the score is to be displayed
-static int16_t comment_score_count = 0;
+static int16_t comment_score_counter = 0;
 //This is to control whether the ball or bat is to be displayed 
 bool display_state = true;
 //Creating a ball object
@@ -34,7 +35,7 @@ static Ball_t ball;
 static char score = SCORE_0;
 
 //The start stage of the game
-game_stage_t stage_start(uint64_t start_counter)
+game_stage_t stage_start(void)
 {
     //If this is the first time the function is being called, display the intro comment
     if (first_start_stage) {
@@ -59,7 +60,7 @@ game_stage_t stage_start(uint64_t start_counter)
     }
 
     //Checking to see if start signal has been sent by other player
-    if (ir_ur_read_ready_p()) {
+    if (ir_uart_read_ready_p()) {
         first_start_stage = true;
         bat = bat_init();
         ball = ball_init();
@@ -79,7 +80,7 @@ game_stage_t stage_playing(int8_t update_ball)
 
     //If the ball is missed then the opponents score goes up 1 and the score is displayed
     if (ball.missed) {
-        if (comment_score_counter = 0) {
+        if (comment_score_counter == 0) {
             tinygl_clear();
             //Display the score
             comment_score(score);
@@ -106,7 +107,7 @@ game_stage_t stage_playing(int8_t update_ball)
     } else {
         
         //Checking if there is incoming ir to be read, and updating the position of the ball if this is the case
-        if (ir_ur_read_ready_p()) {
+        if (ir_uart_read_ready_p()) {
             ball = ir_comms_incomming_ball(ball);
             ball.display = true;
         }

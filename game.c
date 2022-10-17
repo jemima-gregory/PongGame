@@ -13,6 +13,7 @@
 #include "navswitch.h"
 #include "display.h"
 #include "tinygl.h"
+#include "ir_uart.h"
 
 #define PACER_RATE 500
 
@@ -25,6 +26,7 @@ int main (void)
     led_init();
     led_set(LED1, 0);
     display_init();
+    ir_uart_init();
 
     game_stage_t stage = stage_start();
 

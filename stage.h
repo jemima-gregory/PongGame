@@ -8,6 +8,7 @@
 #ifndef STAGE_H
 #define STAGE_H
 
+#include "stdint.h"
 
 //Define the game stages
 typedef enum
@@ -21,7 +22,7 @@ typedef enum
 } game_stage_t;
 
 //The start stage of the game, displays the intro on the LED matrix
-game_stage_t stage_start (void);
+game_stage_t stage_start(void);
 
 //Displays the game on the matrix and also manages the game play
 game_stage_t stage_playing (int8_t call_ball);

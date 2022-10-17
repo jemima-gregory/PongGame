@@ -15,7 +15,7 @@ void comment_init(void);
 void comment_intro(void);
 
 //Set the display to the score text
-void comment_score(char score1, char score2);
+void comment_score(char score);
 
 //Set the display to the end text
 void comment_end(void);

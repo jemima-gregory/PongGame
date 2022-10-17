@@ -30,7 +30,7 @@ Ball_t ball_init(void)
     ball.y = 3;
     ball.dir = SOUTH;
     ball.missed = false;
-    ball.display = true
+    ball.display = true;
     return ball;
 }
 

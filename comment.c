@@ -32,7 +32,7 @@ void comment_intro(void) {
 //Set the display to the score text
 void comment_score(char score) 
 {
-    tinygl_point_t point = {0, 6};
+    tinygl_point_t point = {0, 0};
     tinygl_draw_message(score, point, 1);
 }
 
