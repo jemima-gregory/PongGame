@@ -9,8 +9,11 @@
 #define IR_COMMS_H
 
 #include "ball.h"
+#include "stdbool.h"
 
 void ir_comms_start_game (void);
+
+bool ir_comms_check_start(void);
 
 void ir_comms_outgoing_ball (Ball_t ball);
 

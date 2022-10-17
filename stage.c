@@ -18,6 +18,7 @@
 #include "led.h"
 
 #define SCORE_0 48
+#define SCORE_3 51
 
 // To check if its the first time entering the start stage.
 static bool first_start_stage = true;
@@ -60,7 +61,7 @@ game_stage_t stage_start(void)
     }
 
     //Checking to see if start signal has been sent by other player
-    if (ir_uart_read_ready_p()) {
+    if (ir_comms_check_start()) {
         first_start_stage = true;
         bat = bat_init();
         ball = ball_init();
@@ -93,15 +94,16 @@ game_stage_t stage_playing(int8_t update_ball)
         displayed. The ball and bat is set back to initial settings and the game
         is played again */
         if (comment_score_counter > 1300) {
-            if (score == 51) {
-                return END;
-            }
             ball.missed = false;
             comment_score_counter = 0;
             ball.x = 0;
             ball.y = 3;
             ball.dir = SOUTH;
             bat.position = 3;
+
+            if (score == SCORE_3) {
+                return END;
+            }
         }
 
     } else {
@@ -136,8 +138,8 @@ game_stage_t stage_playing(int8_t update_ball)
                     ball.display = false;
                 }
                 ball_display(ball);
-                display_state = true;
             }
+            display_state = true;
         }
     }
     
