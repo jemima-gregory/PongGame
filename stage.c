@@ -26,7 +26,7 @@ static bool first_start_stage = true;
 // To check if its the first time entering the end stage
 static bool first_end_stage = true;
 //A counter to count how long the score is to be displayed
-static int16_t comment_score_counter = 0;
+static int16_t display_score_counter = 0;
 //This is to control whether the ball or bat is to be displayed 
 bool display_state = true;
 //Creating a ball object
@@ -38,7 +38,8 @@ static char score = SCORE_0;
 static bool display_score = false;
 
 
-//The start stage of the game
+/** The start stage of the game 
+    @return the next stage */
 game_stage_t stage_start(void)
 {
     //If this is the first time the function is being called, display the intro comment
@@ -78,7 +79,8 @@ game_stage_t stage_start(void)
     return START;
 }
 
-//The playing stage is where the actual game is displayed and managed
+/** The playing stage is where the actual game is displayed and managed 
+    @return the next stage */
 game_stage_t stage_playing(int8_t update_ball)
 {
     char value = ir_comms_playing();
@@ -93,28 +95,28 @@ game_stage_t stage_playing(int8_t update_ball)
 
     if (display_score) {  
 
-        if (comment_score_counter == 0) {
+        if (display_score_counter == 0) {
             tinygl_clear();
             //Display the players score
             comment_score(score);
             //Increment the score counter
-            comment_score_counter++;
+            display_score_counter++;
         }
 
         //Increment the score counter
-        comment_score_counter++;
+        display_score_counter++;
         /* If the score counter reaches 1300 that means the score has finished being
         displayed. The ball and bat is set back to initial settings and the game
         is played again 
         */
-        if (comment_score_counter > 1300) {
-            ball.missed = false;
+        if (display_score_counter > 1300) {
             display_score = false;
-            comment_score_counter = 0;
+            display_score_counter = 0;
+            bat.position = 3;
+            ball.missed = false;
             ball.x = 0;
             ball.y = 3;
             ball.dir = SOUTH;
-            bat.position = 3;
 
             if (score == SCORE_3) {
                 ir_comms_game_end();
@@ -169,7 +171,8 @@ game_stage_t stage_playing(int8_t update_ball)
     return PLAYING;
 }
 
-//The end stage of the game
+/** The end stage of the game 
+    @return the next stage */
 game_stage_t stage_end(void)
 {
     //If this is the first time the function is being called, display the end comment
@@ -180,6 +183,14 @@ game_stage_t stage_end(void)
 
     //If the nav switch is pushed, change to the start stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+        first_end_stage = true;
+        score = SCORE_0;
+        navswitch_update();
+        ir_comms_restart_game();
+        return START;
+    }
+
+    if (ir_comms_check_restart()) {
         first_end_stage = true;
         score = SCORE_0;
         navswitch_update();

@@ -13,16 +13,20 @@
 #include "led.h"
 
 
-//The map the for led matrix (use to calculate coord for tinygl)
-// ------y------
-// 6 5 4 3 2 1 0
-// o o o o o o o 0  |
-// o o o o o o o 1  |
-// o o o o o o o 2  x
-// o o o o o o o 3  |
-// o o o o o o o 4  |
+/** The map the for led matrix (use to calculate coord for tinygl)
+    ------y------
+    6 5 4 3 2 1 0
+    o o o o o o o 0  |
+    o o o o o o o 1  |
+    o o o o o o o 2  x
+    o o o o o o o 3  |
+    o o o o o o o 4  | */
 
-//Initiates the ball object - called when the game begins, thus the ball is initiated with the same start position and direction each time.
+
+/** Initialise the ball object - called when the game begins, 
+    thus the ball is initiated with the same start position 
+    and direction each time.
+    @return a new ball object */
 Ball_t ball_init(void)
 {
     Ball_t ball;
@@ -34,12 +38,16 @@ Ball_t ball_init(void)
     return ball;
 }
 
-//Update the direction of the ball
+/** Update the direction of the ball
+    @param the current ball object
+    @param the current bat object
+    @return the new ball object with updated direction*/
 Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
 {
     int8_t bat_pos = bat.position;
 
-    //If the ball 'hits' either wall - y equal to 0 or 6 (right and left to us), then adjust it's direction accordingly
+    //If the ball 'hits' either wall -> y equal to 0 or 6 (right and left to us), 
+    //then adjust it's direction accordingly
     if (ball.dir != SOUTH && ball.dir != NORTH) {
         // The ball hits the right wall
         if (ball.y == 0) {
@@ -92,7 +100,9 @@ Ball_t ball_update_direction(Ball_t ball, Bat_t bat)
 }
 
 
-//Updates the ball coordinates by one, depending on it's current direction.
+/** Updates the ball coordinates, depending on it's current direction.
+    @param the current ball object 
+    @return the new ball object with an updated cordinate*/
 Ball_t ball_update_position (Ball_t the_ball)
 {
     if (the_ball.dir == NORTH) {
@@ -117,7 +127,8 @@ Ball_t ball_update_position (Ball_t the_ball)
 }
 
 
-//Display the position of the ball
+/** Display the position of the ball
+    @param the current ball object to display on board*/
 void ball_display(Ball_t ball)
 {
     tinygl_pixel_value_t led_on = 1;

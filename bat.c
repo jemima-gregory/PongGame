@@ -13,16 +13,19 @@
 #include "tinygl.h"
 
 
-//The map the for led matrix (use to calculate coord for tinygl)
-// ------y------
-// 6 5 4 3 2 1 0
-// o o o o o o o 0  |
-// o o o o o o o 1  |
-// o o o o o o o 2  x
-// o o o o o o o 3  |
-// o o o o o o o 4  |
+/** The map the for led matrix (use to calculate coord for tinygl)
+    ------y------
+    6 5 4 3 2 1 0
+    o o o o o o o 0  |
+    o o o o o o o 1  |
+    o o o o o o o 2  x
+    o o o o o o o 3  |
+    o o o o o o o 4  | */
 
-//Initiates the bat object - is called when the game begins, so the bat is initiated with the same start position each time, 3, "the middle".
+/** Initialise the bat object - is called when the game begins, 
+    so the bat is initiated with the same start position 
+    each time, 3, "the middle".
+    @return the new bat object */
 Bat_t bat_init(void) 
 {
     Bat_t new_bat;
@@ -31,7 +34,8 @@ Bat_t bat_init(void)
 }
 
 
-//Display the bat on the led matrix
+/** Display the bat on the led matrix 
+    @param the current bat object */
 void bat_display(Bat_t bat)
 {
     tinygl_point_t start_of_bat;
@@ -45,7 +49,9 @@ void bat_display(Bat_t bat)
 }
 
 
-//Checks if the nav switch has been pressed and moves the bat position accordingly
+/** Checks if the nav switch has been pressed and move the bat position accordingly 
+    @param the current bat object 
+    @return the new bat object with updated position */
 Bat_t bat_update_position(Bat_t bat)
 {
     // Increment the position if SOUTH is pressed. (representing the bat moving RIGHT)

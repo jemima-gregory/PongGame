@@ -11,7 +11,7 @@
 #include "bat.h"
 
 
-//Direction of the ball
+/** The ball direction enum */
 typedef enum {
     NORTH, 
     NORTH_EAST,
@@ -23,7 +23,7 @@ typedef enum {
     NORTH_WEST
 } Direction;
 
-//Defining the ball object, the position and direction
+/** The ball structure */
 typedef struct {
     int8_t x; 
     int8_t y;
@@ -32,16 +32,25 @@ typedef struct {
     bool display;
 } Ball_t;
 
-//Initialise the ball
+/** Initialise the ball object - called when the game begins, 
+    thus the ball is initiated with the same start position 
+    and direction each time.
+    @return a new ball object */
 Ball_t ball_init(void);
 
-//Update the ball direction
+/** Update the direction of the ball
+    @param the current ball object
+    @param the current bat object
+    @return the new ball object with updated direction*/
 Ball_t ball_update_direction(Ball_t ball, Bat_t bat);
 
-//Update the ball position
+/** Updates the ball coordinates, depending on it's current direction.
+    @param the current ball object 
+    @return the new ball object with an updated cordinate*/
 Ball_t ball_update_position (Ball_t the_ball);
 
-//Display the ball on the led matrix
+/** Display the position of the ball
+    @param the current ball object to display on board*/
 void ball_display(Ball_t the_ball);
 
 #endif

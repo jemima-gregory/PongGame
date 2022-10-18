@@ -19,6 +19,7 @@
 
 int main (void)
 {
+    // intialize everything
     system_init();
     pacer_init(PACER_RATE);
     comment_init();
@@ -28,6 +29,7 @@ int main (void)
     display_init();
     ir_uart_init();
 
+    // get the start stage
     game_stage_t stage = stage_start();
 
     uint8_t update_ball = 0;
@@ -36,7 +38,7 @@ int main (void)
     {
         pacer_wait();
         update_ball++;
-
+        // Makes sure that the ball is only updated every 50 cycles
         if (update_ball > 50) {
             update_ball = 0;
         }

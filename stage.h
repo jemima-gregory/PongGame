@@ -10,7 +10,7 @@
 
 #include "stdint.h"
 
-//Define the game stages
+/** The stages enum */
 typedef enum
 {
     //The start stage of the game
@@ -21,13 +21,16 @@ typedef enum
     END
 } game_stage_t;
 
-//The start stage of the game, displays the intro on the LED matrix
+/** The start stage of the game 
+    @return the next stage */
 game_stage_t stage_start(void);
 
-//Displays the game on the matrix and also manages the game play
+/** The playing stage is where the actual game is displayed and managed 
+    @return the next stage */
 game_stage_t stage_playing (int8_t call_ball);
 
-//Displayes the end screen
+/** The end stage of the game 
+    @return the next stage */
 game_stage_t stage_end (void);
 
 #endif

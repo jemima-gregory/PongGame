@@ -14,7 +14,7 @@
 #define PACER_RATE 500
 #define MESSAGE_RATE 30
 
-//Initialize comment
+/** Initialize comment */
 void comment_init (void)
 {
     tinygl_init(PACER_RATE);
@@ -24,12 +24,13 @@ void comment_init (void)
     tinygl_text_dir_set(TINYGL_TEXT_DIR_ROTATE);
 }
 
-//Set the display to the intro text
+/** Set the display to the intro text */
 void comment_intro(void) {
-    tinygl_text("  Push to start");
+    tinygl_text("Push to start");
 }
 
-//Set the score text
+/** Set the display to the score text 
+    @param the current player score */
 void comment_score(char score) 
 {
     tinygl_point_t point = {0, 0};
@@ -38,7 +39,7 @@ void comment_score(char score)
     tinygl_draw_message(display_score, point, 1);
 }
 
-//Set the display to the end text
+/** Set the display to the end text */
 void comment_end(void) 
 {
     tinygl_text("Thank you for playing");
