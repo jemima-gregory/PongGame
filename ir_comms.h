@@ -17,10 +17,12 @@ bool ir_comms_check_start(void);
 
 void ir_comms_outgoing_ball (Ball_t ball);
 
-Ball_t ir_comms_incomming_ball (Ball_t ball);
+Ball_t ir_comms_incomming_ball (Ball_t ball, char value);
 
-void ir_comms_send_score (char their_score);
+void ir_comms_ball_missed (void);
 
-char ir_comms_get_score (char my_score);
+void ir_comms_game_end (void);
+
+char ir_comms_playing (void);
 
 #endif

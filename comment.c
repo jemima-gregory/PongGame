@@ -29,7 +29,7 @@ void comment_intro(void) {
     tinygl_text("  Push to start");
 }
 
-//Set the display to the score text
+//Set the score text
 void comment_score(char score) 
 {
     tinygl_point_t point = {0, 0};
@@ -43,3 +43,5 @@ void comment_end(void)
 {
     tinygl_text("Thank you for playing");
 }
+
+

@@ -19,6 +19,7 @@
 
 #define SCORE_0 48
 #define SCORE_3 51
+#define OFF_BOARD -1
 
 // To check if its the first time entering the start stage
 static bool first_start_stage = true;
@@ -33,7 +34,9 @@ static Bat_t bat;
 //Creating a ball object
 static Ball_t ball;
 //Score1 is this players score and is set to 0
-static char score
+static char score = SCORE_0;
+static bool display_score = false;
+
 
 //The start stage of the game
 game_stage_t stage_start(void)
@@ -78,27 +81,22 @@ game_stage_t stage_start(void)
 //The playing stage is where the actual game is displayed and managed
 game_stage_t stage_playing(int8_t update_ball)
 {
+    char value = ir_comms_playing();
+    if (value == 'e') {
+        return END;
+    }
 
-    //If the player missed the ball, or if the opponent missed
-    //then the opponents score goes up 1 and the score is displayed
+    if (value == 'm') {
+        score++;
+        display_score = true;
+    } 
 
-    if (ball.missed || ir_comms_opponent_scores()) {  
+    if (display_score) {  
 
         if (comment_score_counter == 0) {
-            
-            
-            if (ball.missed) {
-                //Send the score to the opponent
-                ir_comms_send_score(score);
-            }
-            
-            if (ir_comms_opponent_scores()) {
-                score1 = ir_comms_get_score(score1);
-            } 
-
             tinygl_clear();
             //Display the players score
-            comment_score(score1);
+            comment_score(score);
             //Increment the score counter
             comment_score_counter++;
         }
@@ -111,13 +109,17 @@ game_stage_t stage_playing(int8_t update_ball)
         */
         if (comment_score_counter > 1300) {
             ball.missed = false;
+            display_score = false;
             comment_score_counter = 0;
             ball.x = 0;
             ball.y = 3;
             ball.dir = SOUTH;
             bat.position = 3;
 
-            if ((score1 == SCORE_3) || (score2 == SCORE_3)) {
+            if (score == SCORE_3) {
+                ir_comms_game_end();
+                return END;
+            } else if (value == 'e') {
                 return END;
             }
         }
@@ -125,11 +127,11 @@ game_stage_t stage_playing(int8_t update_ball)
     } else { 
         
         //Checking if there is incoming ir to be read, and updating the position of the ball if this is the case
-        if (ir_uart_read_ready_p()) {
-            ball = ir_comms_incomming_ball(ball);
+        if (value >= 0 && value <= 80) {
+            ball = ir_comms_incomming_ball(ball, value);
+            ball.x ++;
             ball.display = true;
         }
-
 
         tinygl_clear();
         //Display bat
@@ -138,6 +140,7 @@ game_stage_t stage_playing(int8_t update_ball)
             //Update the bat positoin
             bat = bat_update_position(bat);
             display_state = false;
+        
         //Display ball
         } else {
             //If ball is on this players screen
@@ -147,13 +150,17 @@ game_stage_t stage_playing(int8_t update_ball)
                     ball = ball_update_position(ball);
                     ball = ball_update_direction(ball, bat);
                 }
-                
+                if (ball.missed) {
+                    display_score = true;
+                    ir_comms_ball_missed();
+                }
                 //The ball has reached the top of the board. (from the player's pov) It goes to the other player
-                if (ball.x == -1) {
+                if (ball.x == OFF_BOARD) {
                     ir_comms_outgoing_ball(ball);
                     ball.display = false;
+                } else {
+                    ball_display(ball);
                 }
-                ball_display(ball);
             }
             display_state = true;
         }
@@ -174,8 +181,7 @@ game_stage_t stage_end(void)
     //If the nav switch is pushed, change to the start stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
         first_end_stage = true;
-        score1 = SCORE_0;
-        score2 = SCORE_0;
+        score = SCORE_0;
         navswitch_update();
         return START;
     }

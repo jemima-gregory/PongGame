@@ -12,6 +12,9 @@
 #define XCOORD_OFFSET 8
 #define START 's'
 #define SCORE_0 48
+#define MISSED 'm'
+#define GAME_END 'e'
+#define OFF_BOARD -1
 
 //Start val is the value which conveys that the game should start
 //#define START_VAL 
@@ -45,38 +48,33 @@ void ir_comms_outgoing_ball (Ball_t ball)
 
 
 //Decodes the info recieved by the ir, returns the ball's value
-Ball_t ir_comms_incomming_ball (Ball_t ball) 
+Ball_t ir_comms_incomming_ball (Ball_t ball, char value) 
 {
-    char value = ir_uart_getc();
-
     //Value is decoded from a char value to get the direction
     int8_t y_cord = value % 10;
     ball.y = 6 - y_cord;
 
     //Value is decoded from a char value to get the x-coord
     ball.dir = (((value - y_cord) / 10) + 4) % 8;
-
     return ball;
 }
 
 //
-void ir_comms_send_score (char their_score) {
-    ir_uart_putc(their_score);
+void ir_comms_ball_missed (void) {
+    ir_uart_putc(MISSED);
 }
 
-bool ir_comms_opponent_scores (void) {
+void ir_comms_game_end (void) {
+    ir_uart_putc(GAME_END);
+}
+
+char ir_comms_playing (void) {
     if (ir_uart_read_ready_p()) {
         char c = ir_uart_getc();
         // To reduce IR interference
-        if (c >= SCORE_0 && c <= (SCORE_0 + 3) {
+        if (c >= 0 && c <= 110) {
             return c;
         }
     }
-    return 0;
-}
-
-//
-char ir_comms_get_score (char my_score) {
-    my_score = ir_uart_getc();
-    return my_score;
+    return 111;
 }
