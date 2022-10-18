@@ -11,6 +11,7 @@
 //Offset is 8 as there are 8 values for direction
 #define XCOORD_OFFSET 8
 #define START 's'
+#define SCORE_0 48
 
 //Start val is the value which conveys that the game should start
 //#define START_VAL 
@@ -21,6 +22,7 @@ void ir_comms_start_game (void)
     ir_uart_putc(START);
 }
 
+//
 bool ir_comms_check_start(void) {
     if (ir_uart_read_ready_p()) {
         char c = ir_uart_getc();
@@ -60,6 +62,17 @@ Ball_t ir_comms_incomming_ball (Ball_t ball)
 //
 void ir_comms_send_score (char their_score) {
     ir_uart_putc(their_score);
+}
+
+bool ir_comms_opponent_scores (void) {
+    if (ir_uart_read_ready_p()) {
+        char c = ir_uart_getc();
+        // To reduce IR interference
+        if (c >= SCORE_0 && c <= (SCORE_0 + 3) {
+            return c;
+        }
+    }
+    return 0;
 }
 
 //

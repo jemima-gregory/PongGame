@@ -33,9 +33,7 @@ static Bat_t bat;
 //Creating a ball object
 static Ball_t ball;
 //Score1 is this players score and is set to 0
-static char score1 = SCORE_0;
-//Score2 is this opponents score and is set to 0
-static char score2 = SCORE_0;
+static char score
 
 //The start stage of the game
 game_stage_t stage_start(void)
@@ -83,20 +81,20 @@ game_stage_t stage_playing(int8_t update_ball)
 
     //If the player missed the ball, or if the opponent missed
     //then the opponents score goes up 1 and the score is displayed
-    if (ball.missed || ir_uart_read_ready_p()) {
-        
+
+    if (ball.missed || ir_comms_opponent_scores()) {  
 
         if (comment_score_counter == 0) {
             
+            
             if (ball.missed) {
-                //Increment the opponents score
-                score2 ++;
                 //Send the score to the opponent
-                ir_comms_send_score(score2);
-
-            } else if (ir_uart_read_ready_p()) {
-                score1 = ir_comms_get_score(score1);
+                ir_comms_send_score(score);
             }
+            
+            if (ir_comms_opponent_scores()) {
+                score1 = ir_comms_get_score(score1);
+            } 
 
             tinygl_clear();
             //Display the players score
@@ -104,11 +102,13 @@ game_stage_t stage_playing(int8_t update_ball)
             //Increment the score counter
             comment_score_counter++;
         }
+
         //Increment the score counter
         comment_score_counter++;
         /* If the score counter reaches 1300 that means the score has finished being
         displayed. The ball and bat is set back to initial settings and the game
-        is played again */
+        is played again 
+        */
         if (comment_score_counter > 1300) {
             ball.missed = false;
             comment_score_counter = 0;
@@ -122,7 +122,7 @@ game_stage_t stage_playing(int8_t update_ball)
             }
         }
 
-    } else {
+    } else { 
         
         //Checking if there is incoming ir to be read, and updating the position of the ball if this is the case
         if (ir_uart_read_ready_p()) {
