@@ -6,10 +6,8 @@
 */
 
 #include "system.h"
-#include "display.h"
 #include "navswitch.h"
 #include "bat.h"
-#include "ledmat.h"
 #include "tinygl.h"
 
 

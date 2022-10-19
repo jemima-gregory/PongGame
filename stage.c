@@ -20,6 +20,15 @@
 #define SCORE_0 48
 #define SCORE_3 51
 #define OFF_BOARD -1
+#define MISSED 'm'
+#define GAME_END 'e'
+#define START_SCORE_COUNTER 0
+#define END_SCORE_COUNTER 1300
+#define UPDATE_BALL 49
+#define START_ENCODED_BALL 0
+#define END_ENCODED_BALL 80
+#define LED_OFF 0
+#define LED_ON 1
 
 // To check if its the first time entering the start stage
 static bool first_start_stage = true;
@@ -28,7 +37,7 @@ static bool first_end_stage = true;
 //A counter to count how long the score is to be displayed
 static int16_t display_score_counter = 0;
 //This is to control whether the ball or bat is to be displayed 
-bool display_state = true;
+static bool display_state = true;
 //Creating a ball object
 static Bat_t bat;
 //Creating a ball object
@@ -48,12 +57,12 @@ game_stage_t stage_start(void)
         tinygl_clear();
         comment_intro();
         first_start_stage = false;
-        led_set(LED1, 1);
+        led_set(LED1, LED_ON);
     }
 
     //If the nav switch is pushed, change to the playing stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-        led_set(LED1, 0);
+        led_set(LED1, LED_OFF);
         //Send the start signal to the other player
         ir_comms_start_game();
         //Seting the ball to display on this players board
@@ -68,7 +77,7 @@ game_stage_t stage_start(void)
 
     //Checking to see if start signal has been sent by other player
     if (ir_comms_check_start()) {
-        led_set(LED1, 0);
+        led_set(LED1, LED_OFF);
         first_start_stage = true;
         bat = bat_init();
         ball = ball_init();
@@ -84,21 +93,21 @@ game_stage_t stage_start(void)
 
 /** The playing stage is where the actual game is displayed and managed 
     @return the next stage */
-game_stage_t stage_playing(int8_t update_ball)
+game_stage_t stage_playing(int8_t update_ball_counter)
 {
     char value = ir_comms_playing();
-    if (value == 'e') {
+    if (value == GAME_END) {
         return END;
     }
 
-    if (value == 'm') {
+    if (value == MISSED) {
         score++;
         display_score = true;
     } 
 
     if (display_score) {  
 
-        if (display_score_counter == 0) {
+        if (display_score_counter == START_SCORE_COUNTER) {
             tinygl_clear();
             //Display the players score
             comment_score(score);
@@ -108,11 +117,9 @@ game_stage_t stage_playing(int8_t update_ball)
 
         //Increment the score counter
         display_score_counter++;
-        /* If the score counter reaches 1300 that means the score has finished being
-        displayed. The ball and bat is set back to initial settings and the game
-        is played again 
-        */
-        if (display_score_counter > 1300) {
+
+        // stop displaying the score
+        if (display_score_counter > END_SCORE_COUNTER) {
             display_score = false;
             display_score_counter = 0;
             bat.position = 3;
@@ -120,19 +127,21 @@ game_stage_t stage_playing(int8_t update_ball)
             ball.x = 0;
             ball.y = 3;
             ball.dir = SOUTH;
-
+            
+            /* The game has finished since one 
+            of the players have scored 3 points */
             if (score == SCORE_3) {
                 ir_comms_game_end();
                 return END;
-            } else if (value == 'e') {
+            } else if (value == GAME_END) {
                 return END;
             }
         }
 
     } else { 
         
-        //Checking if there is incoming ir to be read, and updating the position of the ball if this is the case
-        if (value >= 0 && value <= 80) {
+        // If value represents the encoded ball value then update ball
+        if (value >= START_ENCODED_BALL && value <= END_ENCODED_BALL) {
             ball = ir_comms_incomming_ball(ball, value);
             ball.x ++;
             ball.display = true;
@@ -151,7 +160,7 @@ game_stage_t stage_playing(int8_t update_ball)
             //If ball is on this players screen
             if (ball.display) {
                 //Every 50th time it enters this call, update ball positon
-                if (update_ball > 49) {
+                if (update_ball_counter > UPDATE_BALL) {
                     ball = ball_update_position(ball);
                     ball = ball_update_direction(ball, bat);
                 }
@@ -182,12 +191,12 @@ game_stage_t stage_end(void)
     if (first_end_stage) {
         comment_end();
         first_end_stage = false;
-        led_set(LED1, 1);
+        led_set(LED1, LED_ON);
     }
 
     //If the nav switch is pushed, change to the start stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-        led_set(LED1, 0);
+        led_set(LED1, LED_OFF);
         first_end_stage = true;
         score = SCORE_0;
         navswitch_update();
@@ -195,8 +204,9 @@ game_stage_t stage_end(void)
         return START;
     }
 
+    //Checking to see if restart signal has been sent by other player
     if (ir_comms_check_restart()) {
-        led_set(LED1, 0);
+        led_set(LED1, LED_OFF);
         first_end_stage = true;
         score = SCORE_0;
         navswitch_update();

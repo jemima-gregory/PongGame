@@ -9,19 +9,12 @@
 #include "ir_uart.h"
 #include "ir_comms.h"
 
-// start signal variable
 #define START 's'
-// end of game signal variable 
 #define GAME_END 'e'
-// restart game signal variable
 #define RESTART 'r'
-// ball was missed signal variable
 #define MISSED 'm'
-// the char '0' in ascii 
 #define SCORE_0 48
-// the ball is off the matrix board
 #define OFF_BOARD -1
-// If nothing has been recieved by the IR
 #define NOTHING_RECIEVED 111
 
 

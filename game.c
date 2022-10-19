@@ -16,6 +16,9 @@
 #include "ir_uart.h"
 
 #define PACER_RATE 500
+#define RESTART_UPDATE_COUNTER 50
+#define INITIAL_UPDATE_COUNTER 0 
+#define LED_OFF 0
 
 int main (void)
 {
@@ -25,28 +28,28 @@ int main (void)
     comment_init();
     navswitch_init();
     led_init();
-    led_set(LED1, 0);
+    led_set(LED1, LED_OFF);
     display_init();
     ir_uart_init();
 
     // get the start stage
     game_stage_t stage = stage_start();
 
-    uint8_t update_ball = 0;
+    uint8_t update_ball_counter = INITIAL_UPDATE_COUNTER;
 
     while(1)
     {
         pacer_wait();
-        update_ball++;
+        update_ball_counter++;
         // Makes sure that the ball is only updated every 50 cycles
-        if (update_ball > 50) {
-            update_ball = 0;
+        if (update_ball_counter > RESTART_UPDATE_COUNTER) {
+            update_ball_counter = INITIAL_UPDATE_COUNTER;
         }
 
         if (stage == START) {
             stage = stage_start();
         } else if (stage == PLAYING) {
-            stage = stage_playing(update_ball);
+            stage = stage_playing(update_ball_counter);
         } else {
             stage = stage_end();
         }

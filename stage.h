@@ -12,11 +12,8 @@
 
 /** The stages enum */
 typedef enum {
-    //The start stage of the game
     START,
-    //The game playing stage of the game
     PLAYING,
-    //The end of the game
     END
 } game_stage_t;
 

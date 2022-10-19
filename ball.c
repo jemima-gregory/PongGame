@@ -7,10 +7,8 @@
 
 #include "system.h"
 #include "tinygl.h"
-#include "pacer.h"
 #include "ball.h"
 #include "bat.h"
-#include "led.h"
 
 
 /** The map the for led matrix (use to calculate coord for tinygl)

@@ -6,7 +6,6 @@
 */
 
 #include "system.h"
-#include "pacer.h"
 #include "tinygl.h"
 #include "../fonts/font5x5_1.h"
 #include "comment.h"
