@@ -11,8 +11,7 @@
 #include <stdint.h>
 
 /** The bat structure */
-typedef struct
-{
+typedef struct {
     int8_t position;
 } Bat_t;
 

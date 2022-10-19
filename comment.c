@@ -25,8 +25,9 @@ void comment_init (void)
 }
 
 /** Set the display to the intro text */
-void comment_intro(void) {
-    tinygl_text("Push to start");
+void comment_intro(void) 
+{
+    tinygl_text("  Push to start");
 }
 
 /** Set the display to the score text 

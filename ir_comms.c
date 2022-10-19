@@ -33,7 +33,8 @@ void ir_comms_start_game (void)
 
 /** Checks if the start signal has been recieved 
     @return true if start signal recieved else false */
-bool ir_comms_check_start(void) {
+bool ir_comms_check_start(void) 
+{
     if (ir_uart_read_ready_p()) {
         char c = ir_uart_getc();
         // To reduce IR interference
@@ -52,7 +53,8 @@ void ir_comms_restart_game (void)
 
 /** Checks if the restart signal has been recieved 
     @return true if restart signal recieved else false */
-bool ir_comms_check_restart(void) {
+bool ir_comms_check_restart(void) 
+{
     if (ir_uart_read_ready_p()) {
         char c = ir_uart_getc();
         // To reduce IR interference
@@ -65,7 +67,8 @@ bool ir_comms_check_restart(void) {
 
 /** Checks if any IR communication for the playing stage has been recieved 
     @return value from the ir if valid else return NOTHING_RECIEVED */
-char ir_comms_playing (void) {
+char ir_comms_playing (void) 
+{
     if (ir_uart_read_ready_p()) {
         char c = ir_uart_getc();
         // To reduce IR interference
@@ -101,11 +104,13 @@ Ball_t ir_comms_incomming_ball (Ball_t ball, char value)
 }
 
 /** Send signal to the other player that they have scored */
-void ir_comms_ball_missed (void) {
+void ir_comms_ball_missed (void) 
+{
     ir_uart_putc(MISSED);
 }
 
 /** Sends signal to the other player that the game has ended */
-void ir_comms_game_end (void) {
+void ir_comms_game_end (void) 
+{
     ir_uart_putc(GAME_END);
 }

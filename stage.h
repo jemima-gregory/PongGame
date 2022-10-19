@@ -11,8 +11,7 @@
 #include "stdint.h"
 
 /** The stages enum */
-typedef enum
-{
+typedef enum {
     //The start stage of the game
     START,
     //The game playing stage of the game

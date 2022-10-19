@@ -35,6 +35,7 @@ static Bat_t bat;
 static Ball_t ball;
 //Score1 is this players score and is set to 0
 static char score = SCORE_0;
+//Bool to decide when the score is displayed
 static bool display_score = false;
 
 
@@ -47,11 +48,12 @@ game_stage_t stage_start(void)
         tinygl_clear();
         comment_intro();
         first_start_stage = false;
+        led_set(LED1, 1);
     }
 
     //If the nav switch is pushed, change to the playing stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-
+        led_set(LED1, 0);
         //Send the start signal to the other player
         ir_comms_start_game();
         //Seting the ball to display on this players board
@@ -66,6 +68,7 @@ game_stage_t stage_start(void)
 
     //Checking to see if start signal has been sent by other player
     if (ir_comms_check_start()) {
+        led_set(LED1, 0);
         first_start_stage = true;
         bat = bat_init();
         ball = ball_init();
@@ -179,10 +182,12 @@ game_stage_t stage_end(void)
     if (first_end_stage) {
         comment_end();
         first_end_stage = false;
+        led_set(LED1, 1);
     }
 
     //If the nav switch is pushed, change to the start stage
     if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+        led_set(LED1, 0);
         first_end_stage = true;
         score = SCORE_0;
         navswitch_update();
@@ -191,6 +196,7 @@ game_stage_t stage_end(void)
     }
 
     if (ir_comms_check_restart()) {
+        led_set(LED1, 0);
         first_end_stage = true;
         score = SCORE_0;
         navswitch_update();
