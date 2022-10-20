@@ -16,7 +16,7 @@
 #include "ir_uart.h"
 
 #define PACER_RATE 500
-#define RESTART_UPDATE_COUNTER 50
+#define RESTART_UPDATE_COUNTER 100
 #define INITIAL_UPDATE_COUNTER 0 
 #define LED_OFF 0
 
@@ -41,7 +41,7 @@ int main (void)
     {
         pacer_wait();
         update_ball_counter++;
-        // Makes sure that the ball is only updated every 50 cycles
+        // Makes sure that the ball is only updated every few cycles
         if (update_ball_counter > RESTART_UPDATE_COUNTER) {
             update_ball_counter = INITIAL_UPDATE_COUNTER;
         }

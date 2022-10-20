@@ -24,7 +24,7 @@
 #define GAME_END 'e'
 #define START_SCORE_COUNTER 0
 #define END_SCORE_COUNTER 1300
-#define UPDATE_BALL 49
+#define UPDATE_BALL 99
 #define START_ENCODED_BALL 0
 #define END_ENCODED_BALL 80
 #define LED_OFF 0
@@ -36,8 +36,6 @@ static bool first_start_stage = true;
 static bool first_end_stage = true;
 //A counter to count how long the score is to be displayed
 static int16_t display_score_counter = 0;
-//This is to control whether the ball or bat is to be displayed 
-static bool display_state = true;
 //Creating a ball object
 static Bat_t bat;
 //Creating a ball object
@@ -149,34 +147,27 @@ game_stage_t stage_playing(int8_t update_ball_counter)
 
         tinygl_clear();
         //Display bat
-        if (display_state == true) {
-            bat_display(bat);
-            //Update the bat positoin
-            bat = bat_update_position(bat);
-            display_state = false;
+        bat_display(bat);
+        //Update the bat positoin
+        bat = bat_update_position(bat);
         
         //Display ball
-        } else {
-            //If ball is on this players screen
-            if (ball.display) {
-                //Every 50th time it enters this call, update ball positon
-                if (update_ball_counter > UPDATE_BALL) {
-                    ball = ball_update_position(ball);
-                    ball = ball_update_direction(ball, bat);
-                }
-                if (ball.missed) {
-                    display_score = true;
-                    ir_comms_ball_missed();
-                }
-                //The ball has reached the top of the board. (from the player's pov) It goes to the other player
-                if (ball.x == OFF_BOARD) {
-                    ir_comms_outgoing_ball(ball);
-                    ball.display = false;
-                } else {
-                    ball_display(ball);
-                }
+        if (ball.display) {
+            ball_display(ball);
+            //Every 50th time it enters this call, update ball positon
+            if (update_ball_counter > UPDATE_BALL) {
+                ball = ball_update_position(ball);
+                ball = ball_update_direction(ball, bat);
             }
-            display_state = true;
+            if (ball.missed) {
+                display_score = true;
+                ir_comms_ball_missed();
+            }
+            //The ball has reached the top of the board. (from the player's pov) It goes to the other player
+            if (ball.x == OFF_BOARD) {
+                ir_comms_outgoing_ball(ball);
+                ball.display = false;
+            }
         }
     }
     
